@@ -48,16 +48,18 @@ int belongs2(char needle[], char * haystack[])
 int move(int state, char input)
 {
 
-    int transition_table[][19] = {
-        {3, 1, -1, 3, 5, 5, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1}, // digits
-        {1, 1, -1, 7, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1}, // letter_
-        {-1, 2, -1, 4, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1}, // \.
-        {8, 2, -1, 7, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1}, // >
-        {11, 2, -1, 7, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1}, // <
-        {14, 2, -1, 7, -1, 6, -1, -1, 9, -1, -1, 12, -1, -1, 15, -1, -1, 18, -1}, // =
-        {17, 2, -1, 7, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1}, // !
-        {0, 2, 0, 7, 0, 6, 0, 0, 10, 0, 0, 13, 0, 0, 16, 0, 0, 0, 0}, // whitespace
-        {0, 2, 0, 7, 0, 6, 0, 0, 10, 0, 0, 13, 0, 0, 16, 0, 0, 0, 0}  // other
+    int transition_table[][23] = {
+        {3, 1, -1, 3, 5, 5, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1, -1, 20, -1, -1}, // digits
+        {1, 1, -1, 7, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1, -1, 20, -1, -1}, // letter_
+        {-1, 2, -1, 4, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1, -1, 20, -1, -1}, // \.
+        {8, 2, -1, 7, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1, -1, 20, -1, -1}, // >
+        {11, 2, -1, 7, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1, -1, 20, -1, -1}, // <
+        {14, 2, -1, 7, -1, 6, -1, -1, 9, -1, -1, 12, -1, -1, 15, -1, -1, 18, -1, -1, 20, -1, -1}, // =
+        {17, 2, -1, 7, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1, -1, 20, -1, -1}, // !
+        {0, 2, 0, 7, 0, 6, 0, 0, 10, 0, 0, 13, 0, 0, 16, 0, 0, 0, 0, 0, 20, 0, 0}, // whitespace
+        {0, 2, 0, 7, 0, 6, 0, 0, 10, 0, 0, 13, 0, 0, 16, 0, 0, 0, 0, 0, 20, 0, 0},  // other
+        {19, 2, -1, 7, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1, -1, 20, 22, -1}, // /
+        {-1, 2, -1, 7, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1, 20, 21, 21, -1}, // *
     };
 
     if (belongs(input, digits))
@@ -95,6 +97,16 @@ int move(int state, char input)
                 state = transition_table[6][state];
                 break;
             }
+            case '/':
+            {
+                state = transition_table[9][state];
+                break;
+            }
+            case '*':
+            {
+                state = transition_table[10][state];
+                break;
+            }
             default:
             {
                 state = transition_table[8][state];
@@ -117,6 +129,7 @@ char * FA(char * file_name)
     int float_states[] = {6};
     int id_states[] = {2};
     int rel_op_states[] = {9, 10, 12, 13, 15, 16, 18};
+    int comment_states[] = {22};
 
     char c = fgetc(fp);
     while(c > 0)
@@ -127,10 +140,21 @@ char * FA(char * file_name)
         {
             yytext[yylen] = '\0';
             yytext[yylen+1] = '\0';
-            int tkNum;
 
+            // printf("State:%d c='%c' yytext(%d)=%s\n", state, c, yylen, yytext);
+            state = move(state, c);
+            // printf("State:%d c='%c' yytext(%d)=%s\n----\n", state, c, yylen, yytext);
+
+            if (isState(state, comment_states, 1))
+            {
+                yytext[yylen++] = c;
+                printf("Comment %s at line %d\n", yytext, line_number);
+                break;
+            }
+
+            int tkNum;
             // Check for operators
-            if (tkNum = belongs2(yytext, operators))
+            if (tkNum = belongs2(yytext, operators) && state == 0)
             {
                 yytext[yylen] = '\0';
                 printf("Operator[%d] %s at line %d\n", tkNum, yytext, line_number);
@@ -138,7 +162,7 @@ char * FA(char * file_name)
                 break;
             }
             // Check for special symbols
-            if (tkNum = belongs2(yytext, special))
+            if (tkNum = belongs2(yytext, special) && state == 0)
             {
                 yytext[yylen] = '\0';
                 printf("Symbol[%d] %s at line %d\n", tkNum, yytext, line_number);
@@ -146,16 +170,13 @@ char * FA(char * file_name)
                 break;
             }
             // Check for reserved words
-            if (tkNum = belongs2(yytext, reserved))
+            if (tkNum = belongs2(yytext, reserved) && state == 0)
             {
                 printf("Reseved word[%d] %s at line %d\n", tkNum, yytext, line_number);
                 break;
             }
 
 
-            // printf("State:%d c='%c' yytext(%d)=%s\n", state, c, yylen, yytext);
-            state = move(state, c);
-            // printf("State:%d c='%c' yytext(%d)=%s\n----\n", state, c, yylen, yytext);
             int op_id;
             if (op_id = isState(state, rel_op_states, 7))
             {
@@ -187,7 +208,7 @@ char * FA(char * file_name)
                 return 0;
             }
 
-            if (belongs(c, whitespace) == 0)
+            if (belongs(c, whitespace) == 0 || state >= 19)
                 yytext[yylen++] = c;
             c = fgetc(fp);
 
@@ -210,8 +231,8 @@ int main()
     // whitespace = [ \n\t]
     // special = . // Anything else
 
-    // char * result = FA("mini.c");
-    char * result = FA("input.c");
+    char * result = FA("mini.c");
+    // char * result = FA("input.c");
 
 
 
