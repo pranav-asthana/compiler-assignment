@@ -7,6 +7,7 @@ char letter_[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 char * reserved[] = {"", "int", "float", "main", "return", "if", "else", "while"};
 char * special[] = {"", ".", ",", "(", ")", "{", "}", "\"", "\'", ";"};
 char * operators[] = {"", "+", "-", "*", "/", "%"};
+char * rel_ops[] = {"GTE", "GT", "LTE", "LT", "EQEQ", "EQ", "NEQ"};
 
 int belongs(char a, char string[])
 {
@@ -20,14 +21,13 @@ int belongs(char a, char string[])
     return 0;
 }
 
-int isState(int s, int states[])
+int isState(int s, int states[], int n)
 {
-    int n = 1;
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < n; i++)
     {
         if (s == states[i])
         {
-            return 1;
+            return i+1;
         }
     }
     return 0;
@@ -49,55 +49,58 @@ int move(int state, char input)
 {
 
     int transition_table[][19] = {
-        {3, 1, 0, 3, 5, 5, 0, 0, 10, 0, 0, 13, 0, 0, 16, 0, 0, -1, 0}, // digits
-        {1, 1, 0, 7, -1, 6, 0, 0, 10, 0, 0, 13, 0, 0, 16, 0, 0, -1, 0}, // letter_
-        {0, 2, 0, 4, -1, 6, 0, 0, 10, 0, 0, 13, 0, 0, 16, 0, 0, -1, 0}, // \.
-        {8, 2, 0, 7, -1, 6, 0, 0, 10, 0, 0, 13, 0, 0, 16, 0, 0, -1, 0}, // >
-        {11, 2, 0, 7, -1, 6, 0, 0, 10, 0, 0, 13, 0, 0, 16, 0, 0, -1, 0}, // <
-        {14, 2, 0, 7, -1, 6, 0, 0, 9, 0, 0, 12, 0, 0, 15, 0, 0, 18, 0}, // =
-        {17, 2, 0, 7, -1, 6, 0, 0, 10, 0, 0, 13, 0, 0, 16, 0, 0, -1, 0}, // !
-        {0, 2, 0, 7, -1, 6, 0, 0, 10, 0, 0, 13, 0, 0, 16, 0, 0, -1, 0}, // whitespace
-        {0, 2, 0, 7, -1, 6, 0, 0, 10, 0, 0, 13, 0, 0, 16, 0, 0, -1, 0}  // other
+        {3, 1, -1, 3, 5, 5, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1}, // digits
+        {1, 1, -1, 7, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1}, // letter_
+        {-1, 2, -1, 4, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1}, // \.
+        {8, 2, -1, 7, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1}, // >
+        {11, 2, -1, 7, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1}, // <
+        {14, 2, -1, 7, -1, 6, -1, -1, 9, -1, -1, 12, -1, -1, 15, -1, -1, 18, -1}, // =
+        {17, 2, -1, 7, -1, 6, -1, -1, 10, -1, -1, 13, -1, -1, 16, -1, -1, -1, -1}, // !
+        {0, 2, 0, 7, 0, 6, 0, 0, 10, 0, 0, 13, 0, 0, 16, 0, 0, 0, 0}, // whitespace
+        {0, 2, 0, 7, 0, 6, 0, 0, 10, 0, 0, 13, 0, 0, 16, 0, 0, 0, 0}  // other
     };
 
-    if (state == 0)
+    if (belongs(input, digits))
+        state = transition_table[0][state];
+    else if (belongs(input, letter_))
+        state = transition_table[1][state];
+    else if (belongs(input, whitespace))
+        state = transition_table[7][state];
+    else
     {
-        if (belongs(input, digits))
-            state = 5;
-        else if (belongs(input, letter_))
-            state = 2;
-        else
-            state = 0;
-    }
-    else if (state == 2)
-    {
-        if (belongs(input, letter_) || belongs(input, digits))
-            state = 2;
-        else
-            state = 3;
-    }
-    else if (state == 5)
-    {
-        if (belongs(input, digits))
-            state = 5;
-        else if (input == '.')
-            state = 6;
-        else
-            state = 9;
-    }
-    else if (state == 6)
-    {
-        if (belongs(input, digits))
-            state = 7;
-        else
-            state = -1;
-    }
-    else if (state == 7)
-    {
-        if (belongs(input, digits))
-            state = 7;
-        else
-            state = 8;
+        switch (input)
+        {
+            case '.':
+            {
+                state = transition_table[2][state];
+                break;
+            }
+            case '>':
+            {
+                state = transition_table[3][state];
+                break;
+            }
+            case '<':
+            {
+                state = transition_table[4][state];
+                break;
+            }
+            case '=':
+            {
+                state = transition_table[5][state];
+                break;
+            }
+            case '!':
+            {
+                state = transition_table[6][state];
+                break;
+            }
+            default:
+            {
+                state = transition_table[8][state];
+                break;
+            }
+        }
     }
     return state;
 }
@@ -110,9 +113,10 @@ char * FA(char * file_name)
     char yytext[100];
     int yylen;
 
-    int int_states[] = {9};
-    int float_states[] = {8};
-    int id_states[] = {3};
+    int int_states[] = {7};
+    int float_states[] = {6};
+    int id_states[] = {2};
+    int rel_op_states[] = {9, 10, 12, 13, 15, 16, 18};
 
     char c = fgetc(fp);
     while(c > 0)
@@ -123,10 +127,7 @@ char * FA(char * file_name)
         {
             yytext[yylen] = '\0';
             yytext[yylen+1] = '\0';
-            state = move(state, c);
             int tkNum;
-            // printf("State:%d c=%c yytext(%d)=%s\n", state, c, yylen, yytext);
-            // printf("belongs2(yytext, operators) = %d\n", belongs2(yytext, operators));
 
             // Check for operators
             if (tkNum = belongs2(yytext, operators))
@@ -136,16 +137,14 @@ char * FA(char * file_name)
                 c = fgetc(fp);
                 break;
             }
-
             // Check for special symbols
             if (tkNum = belongs2(yytext, special))
             {
                 yytext[yylen] = '\0';
                 printf("Symbol[%d] %s at line %d\n", tkNum, yytext, line_number);
-                c = fgetc(fp);
+                // c = fgetc(fp);
                 break;
             }
-
             // Check for reserved words
             if (tkNum = belongs2(yytext, reserved))
             {
@@ -153,17 +152,30 @@ char * FA(char * file_name)
                 break;
             }
 
-            if (isState(state, int_states))
+
+            // printf("State:%d c='%c' yytext(%d)=%s\n", state, c, yylen, yytext);
+            state = move(state, c);
+            // printf("State:%d c='%c' yytext(%d)=%s\n----\n", state, c, yylen, yytext);
+            int op_id;
+            if (op_id = isState(state, rel_op_states, 7))
+            {
+                char * operator = rel_ops[op_id-1];
+                printf("Relational operator[] %s at line %d\n", operator, line_number);
+                if (strlen(operator) > 2)
+                    c = fgetc(fp);
+                break;
+            }
+            if (isState(state, int_states, 1))
             {
                 printf("Int %s at line %d\n", yytext, line_number);
                 break;
             }
-            if (isState(state, float_states))
+            else if (isState(state, float_states, 1))
             {
                 printf("Float %s at line %d\n", yytext, line_number);
                 break;
             }
-            else if(isState(state, id_states))
+            else if(isState(state, id_states, 1))
             {
                 printf("ID %s at line %d\n", yytext, line_number);
                 break;
@@ -171,10 +183,12 @@ char * FA(char * file_name)
             else if (state == -1) // invalid
             {
                 printf("Unidentified token: %s at line %d\n", yytext, line_number);
-                break;
+                printf("Lexical error\n");
+                return 0;
             }
 
-            yytext[yylen++] = c;
+            if (belongs(c, whitespace) == 0)
+                yytext[yylen++] = c;
             c = fgetc(fp);
 
             if (c == '\n')
@@ -196,7 +210,9 @@ int main()
     // whitespace = [ \n\t]
     // special = . // Anything else
 
+    // char * result = FA("mini.c");
     char * result = FA("input.c");
+
 
 
     return 0;
