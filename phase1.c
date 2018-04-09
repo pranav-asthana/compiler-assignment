@@ -149,6 +149,7 @@ char * FA(char * file_name)
             {
                 yytext[yylen++] = c;
                 printf("Comment %s at line %d\n", yytext, line_number);
+                c = fgetc(fp);
                 break;
             }
 
