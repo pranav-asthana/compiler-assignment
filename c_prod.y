@@ -1,5 +1,6 @@
 %{
     #include <stdio.h>
+    #define YYDEBUG 1
 %}
 %token NUM ID MAIN DO WHILE IF ELSE FOR TYPE
 %%
@@ -42,7 +43,7 @@ int main()
 
     extern FILE * yyin;
     yyin = fopen("input.c", "r");
-
+yydebug=1
     if (yyparse() == 0) {
         printf("Valid string\n");
     }

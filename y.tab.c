@@ -65,8 +65,9 @@
 #line 1 "c_prod.y" /* yacc.c:339  */
 
     #include <stdio.h>
+    #define YYDEBUG 1
 
-#line 70 "y.tab.c" /* yacc.c:339  */
+#line 71 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -139,7 +140,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 143 "y.tab.c" /* yacc.c:358  */
+#line 144 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -437,11 +438,11 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,     7,     7,     9,     9,     9,    11,    11,    11,    11,
-      11,    11,    13,    15,    15,    17,    17,    18,    18,    20,
-      20,    20,    21,    21,    21,    22,    22,    22,    24,    24,
-      26,    26,    26,    26,    26,    26,    28,    28,    30,    30,
-      31,    32
+       0,     8,     8,    10,    10,    10,    12,    12,    12,    12,
+      12,    12,    14,    16,    16,    18,    18,    19,    19,    21,
+      21,    21,    22,    22,    22,    23,    23,    23,    25,    25,
+      27,    27,    27,    27,    27,    27,    29,    29,    31,    31,
+      32,    33
 };
 #endif
 
@@ -1279,7 +1280,7 @@ yyreduce:
   switch (yyn)
     {
       
-#line 1283 "y.tab.c" /* yacc.c:1646  */
+#line 1284 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1507,7 +1508,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 34 "c_prod.y" /* yacc.c:1906  */
+#line 35 "c_prod.y" /* yacc.c:1906  */
 
 int yyerror(char *s)
 {
@@ -1519,7 +1520,7 @@ int main()
 
     extern FILE * yyin;
     yyin = fopen("input.c", "r");
-
+yydebug=1
     if (yyparse() == 0) {
         printf("Valid string\n");
     }

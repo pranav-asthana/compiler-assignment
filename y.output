@@ -1,0 +1,1878 @@
+Terminals unused in grammar
+
+   FOR
+
+
+State 3 conflicts: 8 shift/reduce
+State 6 conflicts: 1 shift/reduce
+State 29 conflicts: 8 shift/reduce
+State 77 conflicts: 8 shift/reduce
+State 78 conflicts: 8 shift/reduce
+State 89 conflicts: 8 shift/reduce
+
+
+Grammar
+
+    0 $accept: PROGRAM $end
+
+    1 PROGRAM: MAIN '{' STMTS '}'
+
+    2 STMTS: STMTS STMT
+    3      | STMT
+    4      | %empty
+
+    5 STMT: DECL
+    6     | ASSIGN
+    7     | EXP
+    8     | CONDITIONAL
+    9     | LOOP
+   10     | ';'
+
+   11 DECL: TYPE ID ';'
+
+   12 ASSIGN: ID '=' EXP ';'
+   13       | TYPE ID '=' EXP ';'
+
+   14 EXP: AE
+   15    | BOOL_E
+
+   16 BOOL_E: LE
+   17       | RE
+
+   18 AE: AE '+' T
+   19   | AE '-' T
+   20   | T
+
+   21 T: T '*' F
+   22  | T '/' F
+   23  | F
+
+   24 F: '(' AE ')'
+   25  | NUM
+   26  | ID
+
+   27 LE: AE '&' AE
+   28   | AE '|' AE
+
+   29 RE: AE '>' AE
+   30   | AE '<' AE
+   31   | AE '>' '=' AE
+   32   | AE '<' '=' AE
+   33   | AE '=' '=' AE
+   34   | AE '!' '=' AE
+
+   35 CONDITIONAL: IF '(' BOOL_E ')' '{' STMTS '}'
+   36            | IF '(' BOOL_E ')' '{' STMTS '}' ELSE '{' STMTS '}'
+
+   37 LOOP: WHILE_LOOP
+   38     | DO_WHILE_LOOP
+
+   39 WHILE_LOOP: WHILE '(' BOOL_E ')' '{' STMTS '}'
+
+   40 DO_WHILE_LOOP: DO '{' STMTS '}' WHILE '(' BOOL_E ')' ';'
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'!' (33) 34
+'&' (38) 27
+'(' (40) 24 35 36 39 40
+')' (41) 24 35 36 39 40
+'*' (42) 21
+'+' (43) 18
+'-' (45) 19
+'/' (47) 22
+';' (59) 10 11 12 13 40
+'<' (60) 30 32
+'=' (61) 12 13 31 32 33 34
+'>' (62) 29 31
+'{' (123) 1 35 36 39 40
+'|' (124) 28
+'}' (125) 1 35 36 39 40
+error (256)
+NUM (258) 25
+ID (259) 11 12 13 26
+MAIN (260) 1
+DO (261) 40
+WHILE (262) 39 40
+IF (263) 35 36
+ELSE (264) 36
+FOR (265)
+TYPE (266) 11 13
+
+
+Nonterminals, with rules where they appear
+
+$accept (27)
+    on left: 0
+PROGRAM (28)
+    on left: 1, on right: 0
+STMTS (29)
+    on left: 2 3 4, on right: 1 2 35 36 39 40
+STMT (30)
+    on left: 5 6 7 8 9 10, on right: 2 3
+DECL (31)
+    on left: 11, on right: 5
+ASSIGN (32)
+    on left: 12 13, on right: 6
+EXP (33)
+    on left: 14 15, on right: 7 12 13
+BOOL_E (34)
+    on left: 16 17, on right: 15 35 36 39 40
+AE (35)
+    on left: 18 19 20, on right: 14 18 19 24 27 28 29 30 31 32 33 34
+T (36)
+    on left: 21 22 23, on right: 18 19 20 21 22
+F (37)
+    on left: 24 25 26, on right: 21 22 23
+LE (38)
+    on left: 27 28, on right: 16
+RE (39)
+    on left: 29 30 31 32 33 34, on right: 17
+CONDITIONAL (40)
+    on left: 35 36, on right: 8
+LOOP (41)
+    on left: 37 38, on right: 9
+WHILE_LOOP (42)
+    on left: 39, on right: 37
+DO_WHILE_LOOP (43)
+    on left: 40, on right: 38
+
+
+State 0
+
+    0 $accept: . PROGRAM $end
+    1 PROGRAM: . MAIN '{' STMTS '}'
+
+    MAIN  shift, and go to state 1
+
+    PROGRAM  go to state 2
+
+
+State 1
+
+    1 PROGRAM: MAIN . '{' STMTS '}'
+
+    '{'  shift, and go to state 3
+
+
+State 2
+
+    0 $accept: PROGRAM . $end
+
+    $end  shift, and go to state 4
+
+
+State 3
+
+    1 PROGRAM: MAIN '{' . STMTS '}'
+    2 STMTS: . STMTS STMT
+    3      | . STMT
+    4      | . %empty  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '(']
+    5 STMT: . DECL
+    6     | . ASSIGN
+    7     | . EXP
+    8     | . CONDITIONAL
+    9     | . LOOP
+   10     | . ';'
+   11 DECL: . TYPE ID ';'
+   12 ASSIGN: . ID '=' EXP ';'
+   13       | . TYPE ID '=' EXP ';'
+   14 EXP: . AE
+   15    | . BOOL_E
+   16 BOOL_E: . LE
+   17       | . RE
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   27 LE: . AE '&' AE
+   28   | . AE '|' AE
+   29 RE: . AE '>' AE
+   30   | . AE '<' AE
+   31   | . AE '>' '=' AE
+   32   | . AE '<' '=' AE
+   33   | . AE '=' '=' AE
+   34   | . AE '!' '=' AE
+   35 CONDITIONAL: . IF '(' BOOL_E ')' '{' STMTS '}'
+   36            | . IF '(' BOOL_E ')' '{' STMTS '}' ELSE '{' STMTS '}'
+   37 LOOP: . WHILE_LOOP
+   38     | . DO_WHILE_LOOP
+   39 WHILE_LOOP: . WHILE '(' BOOL_E ')' '{' STMTS '}'
+   40 DO_WHILE_LOOP: . DO '{' STMTS '}' WHILE '(' BOOL_E ')' ';'
+
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+    DO     shift, and go to state 7
+    WHILE  shift, and go to state 8
+    IF     shift, and go to state 9
+    TYPE   shift, and go to state 10
+    ';'    shift, and go to state 11
+    '('    shift, and go to state 12
+
+    NUM       [reduce using rule 4 (STMTS)]
+    ID        [reduce using rule 4 (STMTS)]
+    DO        [reduce using rule 4 (STMTS)]
+    WHILE     [reduce using rule 4 (STMTS)]
+    IF        [reduce using rule 4 (STMTS)]
+    TYPE      [reduce using rule 4 (STMTS)]
+    ';'       [reduce using rule 4 (STMTS)]
+    '('       [reduce using rule 4 (STMTS)]
+    $default  reduce using rule 4 (STMTS)
+
+    STMTS          go to state 13
+    STMT           go to state 14
+    DECL           go to state 15
+    ASSIGN         go to state 16
+    EXP            go to state 17
+    BOOL_E         go to state 18
+    AE             go to state 19
+    T              go to state 20
+    F              go to state 21
+    LE             go to state 22
+    RE             go to state 23
+    CONDITIONAL    go to state 24
+    LOOP           go to state 25
+    WHILE_LOOP     go to state 26
+    DO_WHILE_LOOP  go to state 27
+
+
+State 4
+
+    0 $accept: PROGRAM $end .
+
+    $default  accept
+
+
+State 5
+
+   25 F: NUM .
+
+    $default  reduce using rule 25 (F)
+
+
+State 6
+
+   12 ASSIGN: ID . '=' EXP ';'
+   26 F: ID .  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '=', '+', '-', '*', '/', '(', '&', '|', '>', '<', '!']
+
+    '='  shift, and go to state 28
+
+    '='       [reduce using rule 26 (F)]
+    $default  reduce using rule 26 (F)
+
+
+State 7
+
+   40 DO_WHILE_LOOP: DO . '{' STMTS '}' WHILE '(' BOOL_E ')' ';'
+
+    '{'  shift, and go to state 29
+
+
+State 8
+
+   39 WHILE_LOOP: WHILE . '(' BOOL_E ')' '{' STMTS '}'
+
+    '('  shift, and go to state 30
+
+
+State 9
+
+   35 CONDITIONAL: IF . '(' BOOL_E ')' '{' STMTS '}'
+   36            | IF . '(' BOOL_E ')' '{' STMTS '}' ELSE '{' STMTS '}'
+
+    '('  shift, and go to state 31
+
+
+State 10
+
+   11 DECL: TYPE . ID ';'
+   13 ASSIGN: TYPE . ID '=' EXP ';'
+
+    ID  shift, and go to state 32
+
+
+State 11
+
+   10 STMT: ';' .
+
+    $default  reduce using rule 10 (STMT)
+
+
+State 12
+
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   24  | '(' . AE ')'
+   25  | . NUM
+   26  | . ID
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '('  shift, and go to state 12
+
+    AE  go to state 34
+    T   go to state 20
+    F   go to state 21
+
+
+State 13
+
+    1 PROGRAM: MAIN '{' STMTS . '}'
+    2 STMTS: STMTS . STMT
+    5 STMT: . DECL
+    6     | . ASSIGN
+    7     | . EXP
+    8     | . CONDITIONAL
+    9     | . LOOP
+   10     | . ';'
+   11 DECL: . TYPE ID ';'
+   12 ASSIGN: . ID '=' EXP ';'
+   13       | . TYPE ID '=' EXP ';'
+   14 EXP: . AE
+   15    | . BOOL_E
+   16 BOOL_E: . LE
+   17       | . RE
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   27 LE: . AE '&' AE
+   28   | . AE '|' AE
+   29 RE: . AE '>' AE
+   30   | . AE '<' AE
+   31   | . AE '>' '=' AE
+   32   | . AE '<' '=' AE
+   33   | . AE '=' '=' AE
+   34   | . AE '!' '=' AE
+   35 CONDITIONAL: . IF '(' BOOL_E ')' '{' STMTS '}'
+   36            | . IF '(' BOOL_E ')' '{' STMTS '}' ELSE '{' STMTS '}'
+   37 LOOP: . WHILE_LOOP
+   38     | . DO_WHILE_LOOP
+   39 WHILE_LOOP: . WHILE '(' BOOL_E ')' '{' STMTS '}'
+   40 DO_WHILE_LOOP: . DO '{' STMTS '}' WHILE '(' BOOL_E ')' ';'
+
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+    DO     shift, and go to state 7
+    WHILE  shift, and go to state 8
+    IF     shift, and go to state 9
+    TYPE   shift, and go to state 10
+    '}'    shift, and go to state 35
+    ';'    shift, and go to state 11
+    '('    shift, and go to state 12
+
+    STMT           go to state 36
+    DECL           go to state 15
+    ASSIGN         go to state 16
+    EXP            go to state 17
+    BOOL_E         go to state 18
+    AE             go to state 19
+    T              go to state 20
+    F              go to state 21
+    LE             go to state 22
+    RE             go to state 23
+    CONDITIONAL    go to state 24
+    LOOP           go to state 25
+    WHILE_LOOP     go to state 26
+    DO_WHILE_LOOP  go to state 27
+
+
+State 14
+
+    3 STMTS: STMT .
+
+    $default  reduce using rule 3 (STMTS)
+
+
+State 15
+
+    5 STMT: DECL .
+
+    $default  reduce using rule 5 (STMT)
+
+
+State 16
+
+    6 STMT: ASSIGN .
+
+    $default  reduce using rule 6 (STMT)
+
+
+State 17
+
+    7 STMT: EXP .
+
+    $default  reduce using rule 7 (STMT)
+
+
+State 18
+
+   15 EXP: BOOL_E .
+
+    $default  reduce using rule 15 (EXP)
+
+
+State 19
+
+   14 EXP: AE .  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '(']
+   18 AE: AE . '+' T
+   19   | AE . '-' T
+   27 LE: AE . '&' AE
+   28   | AE . '|' AE
+   29 RE: AE . '>' AE
+   30   | AE . '<' AE
+   31   | AE . '>' '=' AE
+   32   | AE . '<' '=' AE
+   33   | AE . '=' '=' AE
+   34   | AE . '!' '=' AE
+
+    '='  shift, and go to state 37
+    '+'  shift, and go to state 38
+    '-'  shift, and go to state 39
+    '&'  shift, and go to state 40
+    '|'  shift, and go to state 41
+    '>'  shift, and go to state 42
+    '<'  shift, and go to state 43
+    '!'  shift, and go to state 44
+
+    $default  reduce using rule 14 (EXP)
+
+
+State 20
+
+   20 AE: T .  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '=', '+', '-', '(', ')', '&', '|', '>', '<', '!']
+   21 T: T . '*' F
+   22  | T . '/' F
+
+    '*'  shift, and go to state 45
+    '/'  shift, and go to state 46
+
+    $default  reduce using rule 20 (AE)
+
+
+State 21
+
+   23 T: F .
+
+    $default  reduce using rule 23 (T)
+
+
+State 22
+
+   16 BOOL_E: LE .
+
+    $default  reduce using rule 16 (BOOL_E)
+
+
+State 23
+
+   17 BOOL_E: RE .
+
+    $default  reduce using rule 17 (BOOL_E)
+
+
+State 24
+
+    8 STMT: CONDITIONAL .
+
+    $default  reduce using rule 8 (STMT)
+
+
+State 25
+
+    9 STMT: LOOP .
+
+    $default  reduce using rule 9 (STMT)
+
+
+State 26
+
+   37 LOOP: WHILE_LOOP .
+
+    $default  reduce using rule 37 (LOOP)
+
+
+State 27
+
+   38 LOOP: DO_WHILE_LOOP .
+
+    $default  reduce using rule 38 (LOOP)
+
+
+State 28
+
+   12 ASSIGN: ID '=' . EXP ';'
+   14 EXP: . AE
+   15    | . BOOL_E
+   16 BOOL_E: . LE
+   17       | . RE
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   27 LE: . AE '&' AE
+   28   | . AE '|' AE
+   29 RE: . AE '>' AE
+   30   | . AE '<' AE
+   31   | . AE '>' '=' AE
+   32   | . AE '<' '=' AE
+   33   | . AE '=' '=' AE
+   34   | . AE '!' '=' AE
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '('  shift, and go to state 12
+
+    EXP     go to state 47
+    BOOL_E  go to state 18
+    AE      go to state 19
+    T       go to state 20
+    F       go to state 21
+    LE      go to state 22
+    RE      go to state 23
+
+
+State 29
+
+    2 STMTS: . STMTS STMT
+    3      | . STMT
+    4      | . %empty  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '(']
+    5 STMT: . DECL
+    6     | . ASSIGN
+    7     | . EXP
+    8     | . CONDITIONAL
+    9     | . LOOP
+   10     | . ';'
+   11 DECL: . TYPE ID ';'
+   12 ASSIGN: . ID '=' EXP ';'
+   13       | . TYPE ID '=' EXP ';'
+   14 EXP: . AE
+   15    | . BOOL_E
+   16 BOOL_E: . LE
+   17       | . RE
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   27 LE: . AE '&' AE
+   28   | . AE '|' AE
+   29 RE: . AE '>' AE
+   30   | . AE '<' AE
+   31   | . AE '>' '=' AE
+   32   | . AE '<' '=' AE
+   33   | . AE '=' '=' AE
+   34   | . AE '!' '=' AE
+   35 CONDITIONAL: . IF '(' BOOL_E ')' '{' STMTS '}'
+   36            | . IF '(' BOOL_E ')' '{' STMTS '}' ELSE '{' STMTS '}'
+   37 LOOP: . WHILE_LOOP
+   38     | . DO_WHILE_LOOP
+   39 WHILE_LOOP: . WHILE '(' BOOL_E ')' '{' STMTS '}'
+   40 DO_WHILE_LOOP: . DO '{' STMTS '}' WHILE '(' BOOL_E ')' ';'
+   40              | DO '{' . STMTS '}' WHILE '(' BOOL_E ')' ';'
+
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+    DO     shift, and go to state 7
+    WHILE  shift, and go to state 8
+    IF     shift, and go to state 9
+    TYPE   shift, and go to state 10
+    ';'    shift, and go to state 11
+    '('    shift, and go to state 12
+
+    NUM       [reduce using rule 4 (STMTS)]
+    ID        [reduce using rule 4 (STMTS)]
+    DO        [reduce using rule 4 (STMTS)]
+    WHILE     [reduce using rule 4 (STMTS)]
+    IF        [reduce using rule 4 (STMTS)]
+    TYPE      [reduce using rule 4 (STMTS)]
+    ';'       [reduce using rule 4 (STMTS)]
+    '('       [reduce using rule 4 (STMTS)]
+    $default  reduce using rule 4 (STMTS)
+
+    STMTS          go to state 48
+    STMT           go to state 14
+    DECL           go to state 15
+    ASSIGN         go to state 16
+    EXP            go to state 17
+    BOOL_E         go to state 18
+    AE             go to state 19
+    T              go to state 20
+    F              go to state 21
+    LE             go to state 22
+    RE             go to state 23
+    CONDITIONAL    go to state 24
+    LOOP           go to state 25
+    WHILE_LOOP     go to state 26
+    DO_WHILE_LOOP  go to state 27
+
+
+State 30
+
+   16 BOOL_E: . LE
+   17       | . RE
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   27 LE: . AE '&' AE
+   28   | . AE '|' AE
+   29 RE: . AE '>' AE
+   30   | . AE '<' AE
+   31   | . AE '>' '=' AE
+   32   | . AE '<' '=' AE
+   33   | . AE '=' '=' AE
+   34   | . AE '!' '=' AE
+   39 WHILE_LOOP: WHILE '(' . BOOL_E ')' '{' STMTS '}'
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '('  shift, and go to state 12
+
+    BOOL_E  go to state 49
+    AE      go to state 50
+    T       go to state 20
+    F       go to state 21
+    LE      go to state 22
+    RE      go to state 23
+
+
+State 31
+
+   16 BOOL_E: . LE
+   17       | . RE
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   27 LE: . AE '&' AE
+   28   | . AE '|' AE
+   29 RE: . AE '>' AE
+   30   | . AE '<' AE
+   31   | . AE '>' '=' AE
+   32   | . AE '<' '=' AE
+   33   | . AE '=' '=' AE
+   34   | . AE '!' '=' AE
+   35 CONDITIONAL: IF '(' . BOOL_E ')' '{' STMTS '}'
+   36            | IF '(' . BOOL_E ')' '{' STMTS '}' ELSE '{' STMTS '}'
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '('  shift, and go to state 12
+
+    BOOL_E  go to state 51
+    AE      go to state 50
+    T       go to state 20
+    F       go to state 21
+    LE      go to state 22
+    RE      go to state 23
+
+
+State 32
+
+   11 DECL: TYPE ID . ';'
+   13 ASSIGN: TYPE ID . '=' EXP ';'
+
+    ';'  shift, and go to state 52
+    '='  shift, and go to state 53
+
+
+State 33
+
+   26 F: ID .
+
+    $default  reduce using rule 26 (F)
+
+
+State 34
+
+   18 AE: AE . '+' T
+   19   | AE . '-' T
+   24 F: '(' AE . ')'
+
+    '+'  shift, and go to state 38
+    '-'  shift, and go to state 39
+    ')'  shift, and go to state 54
+
+
+State 35
+
+    1 PROGRAM: MAIN '{' STMTS '}' .
+
+    $default  reduce using rule 1 (PROGRAM)
+
+
+State 36
+
+    2 STMTS: STMTS STMT .
+
+    $default  reduce using rule 2 (STMTS)
+
+
+State 37
+
+   33 RE: AE '=' . '=' AE
+
+    '='  shift, and go to state 55
+
+
+State 38
+
+   18 AE: AE '+' . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '('  shift, and go to state 12
+
+    T  go to state 56
+    F  go to state 21
+
+
+State 39
+
+   19 AE: AE '-' . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '('  shift, and go to state 12
+
+    T  go to state 57
+    F  go to state 21
+
+
+State 40
+
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   27 LE: AE '&' . AE
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '('  shift, and go to state 12
+
+    AE  go to state 58
+    T   go to state 20
+    F   go to state 21
+
+
+State 41
+
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   28 LE: AE '|' . AE
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '('  shift, and go to state 12
+
+    AE  go to state 59
+    T   go to state 20
+    F   go to state 21
+
+
+State 42
+
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   29 RE: AE '>' . AE
+   31   | AE '>' . '=' AE
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '='  shift, and go to state 60
+    '('  shift, and go to state 12
+
+    AE  go to state 61
+    T   go to state 20
+    F   go to state 21
+
+
+State 43
+
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   30 RE: AE '<' . AE
+   32   | AE '<' . '=' AE
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '='  shift, and go to state 62
+    '('  shift, and go to state 12
+
+    AE  go to state 63
+    T   go to state 20
+    F   go to state 21
+
+
+State 44
+
+   34 RE: AE '!' . '=' AE
+
+    '='  shift, and go to state 64
+
+
+State 45
+
+   21 T: T '*' . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '('  shift, and go to state 12
+
+    F  go to state 65
+
+
+State 46
+
+   22 T: T '/' . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '('  shift, and go to state 12
+
+    F  go to state 66
+
+
+State 47
+
+   12 ASSIGN: ID '=' EXP . ';'
+
+    ';'  shift, and go to state 67
+
+
+State 48
+
+    2 STMTS: STMTS . STMT
+    5 STMT: . DECL
+    6     | . ASSIGN
+    7     | . EXP
+    8     | . CONDITIONAL
+    9     | . LOOP
+   10     | . ';'
+   11 DECL: . TYPE ID ';'
+   12 ASSIGN: . ID '=' EXP ';'
+   13       | . TYPE ID '=' EXP ';'
+   14 EXP: . AE
+   15    | . BOOL_E
+   16 BOOL_E: . LE
+   17       | . RE
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   27 LE: . AE '&' AE
+   28   | . AE '|' AE
+   29 RE: . AE '>' AE
+   30   | . AE '<' AE
+   31   | . AE '>' '=' AE
+   32   | . AE '<' '=' AE
+   33   | . AE '=' '=' AE
+   34   | . AE '!' '=' AE
+   35 CONDITIONAL: . IF '(' BOOL_E ')' '{' STMTS '}'
+   36            | . IF '(' BOOL_E ')' '{' STMTS '}' ELSE '{' STMTS '}'
+   37 LOOP: . WHILE_LOOP
+   38     | . DO_WHILE_LOOP
+   39 WHILE_LOOP: . WHILE '(' BOOL_E ')' '{' STMTS '}'
+   40 DO_WHILE_LOOP: . DO '{' STMTS '}' WHILE '(' BOOL_E ')' ';'
+   40              | DO '{' STMTS . '}' WHILE '(' BOOL_E ')' ';'
+
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+    DO     shift, and go to state 7
+    WHILE  shift, and go to state 8
+    IF     shift, and go to state 9
+    TYPE   shift, and go to state 10
+    '}'    shift, and go to state 68
+    ';'    shift, and go to state 11
+    '('    shift, and go to state 12
+
+    STMT           go to state 36
+    DECL           go to state 15
+    ASSIGN         go to state 16
+    EXP            go to state 17
+    BOOL_E         go to state 18
+    AE             go to state 19
+    T              go to state 20
+    F              go to state 21
+    LE             go to state 22
+    RE             go to state 23
+    CONDITIONAL    go to state 24
+    LOOP           go to state 25
+    WHILE_LOOP     go to state 26
+    DO_WHILE_LOOP  go to state 27
+
+
+State 49
+
+   39 WHILE_LOOP: WHILE '(' BOOL_E . ')' '{' STMTS '}'
+
+    ')'  shift, and go to state 69
+
+
+State 50
+
+   18 AE: AE . '+' T
+   19   | AE . '-' T
+   27 LE: AE . '&' AE
+   28   | AE . '|' AE
+   29 RE: AE . '>' AE
+   30   | AE . '<' AE
+   31   | AE . '>' '=' AE
+   32   | AE . '<' '=' AE
+   33   | AE . '=' '=' AE
+   34   | AE . '!' '=' AE
+
+    '='  shift, and go to state 37
+    '+'  shift, and go to state 38
+    '-'  shift, and go to state 39
+    '&'  shift, and go to state 40
+    '|'  shift, and go to state 41
+    '>'  shift, and go to state 42
+    '<'  shift, and go to state 43
+    '!'  shift, and go to state 44
+
+
+State 51
+
+   35 CONDITIONAL: IF '(' BOOL_E . ')' '{' STMTS '}'
+   36            | IF '(' BOOL_E . ')' '{' STMTS '}' ELSE '{' STMTS '}'
+
+    ')'  shift, and go to state 70
+
+
+State 52
+
+   11 DECL: TYPE ID ';' .
+
+    $default  reduce using rule 11 (DECL)
+
+
+State 53
+
+   13 ASSIGN: TYPE ID '=' . EXP ';'
+   14 EXP: . AE
+   15    | . BOOL_E
+   16 BOOL_E: . LE
+   17       | . RE
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   27 LE: . AE '&' AE
+   28   | . AE '|' AE
+   29 RE: . AE '>' AE
+   30   | . AE '<' AE
+   31   | . AE '>' '=' AE
+   32   | . AE '<' '=' AE
+   33   | . AE '=' '=' AE
+   34   | . AE '!' '=' AE
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '('  shift, and go to state 12
+
+    EXP     go to state 71
+    BOOL_E  go to state 18
+    AE      go to state 19
+    T       go to state 20
+    F       go to state 21
+    LE      go to state 22
+    RE      go to state 23
+
+
+State 54
+
+   24 F: '(' AE ')' .
+
+    $default  reduce using rule 24 (F)
+
+
+State 55
+
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   33 RE: AE '=' '=' . AE
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '('  shift, and go to state 12
+
+    AE  go to state 72
+    T   go to state 20
+    F   go to state 21
+
+
+State 56
+
+   18 AE: AE '+' T .  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '=', '+', '-', '(', ')', '&', '|', '>', '<', '!']
+   21 T: T . '*' F
+   22  | T . '/' F
+
+    '*'  shift, and go to state 45
+    '/'  shift, and go to state 46
+
+    $default  reduce using rule 18 (AE)
+
+
+State 57
+
+   19 AE: AE '-' T .  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '=', '+', '-', '(', ')', '&', '|', '>', '<', '!']
+   21 T: T . '*' F
+   22  | T . '/' F
+
+    '*'  shift, and go to state 45
+    '/'  shift, and go to state 46
+
+    $default  reduce using rule 19 (AE)
+
+
+State 58
+
+   18 AE: AE . '+' T
+   19   | AE . '-' T
+   27 LE: AE '&' AE .  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '(', ')']
+
+    '+'  shift, and go to state 38
+    '-'  shift, and go to state 39
+
+    $default  reduce using rule 27 (LE)
+
+
+State 59
+
+   18 AE: AE . '+' T
+   19   | AE . '-' T
+   28 LE: AE '|' AE .  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '(', ')']
+
+    '+'  shift, and go to state 38
+    '-'  shift, and go to state 39
+
+    $default  reduce using rule 28 (LE)
+
+
+State 60
+
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   31 RE: AE '>' '=' . AE
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '('  shift, and go to state 12
+
+    AE  go to state 73
+    T   go to state 20
+    F   go to state 21
+
+
+State 61
+
+   18 AE: AE . '+' T
+   19   | AE . '-' T
+   29 RE: AE '>' AE .  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '(', ')']
+
+    '+'  shift, and go to state 38
+    '-'  shift, and go to state 39
+
+    $default  reduce using rule 29 (RE)
+
+
+State 62
+
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   32 RE: AE '<' '=' . AE
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '('  shift, and go to state 12
+
+    AE  go to state 74
+    T   go to state 20
+    F   go to state 21
+
+
+State 63
+
+   18 AE: AE . '+' T
+   19   | AE . '-' T
+   30 RE: AE '<' AE .  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '(', ')']
+
+    '+'  shift, and go to state 38
+    '-'  shift, and go to state 39
+
+    $default  reduce using rule 30 (RE)
+
+
+State 64
+
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   34 RE: AE '!' '=' . AE
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '('  shift, and go to state 12
+
+    AE  go to state 75
+    T   go to state 20
+    F   go to state 21
+
+
+State 65
+
+   21 T: T '*' F .
+
+    $default  reduce using rule 21 (T)
+
+
+State 66
+
+   22 T: T '/' F .
+
+    $default  reduce using rule 22 (T)
+
+
+State 67
+
+   12 ASSIGN: ID '=' EXP ';' .
+
+    $default  reduce using rule 12 (ASSIGN)
+
+
+State 68
+
+   40 DO_WHILE_LOOP: DO '{' STMTS '}' . WHILE '(' BOOL_E ')' ';'
+
+    WHILE  shift, and go to state 76
+
+
+State 69
+
+   39 WHILE_LOOP: WHILE '(' BOOL_E ')' . '{' STMTS '}'
+
+    '{'  shift, and go to state 77
+
+
+State 70
+
+   35 CONDITIONAL: IF '(' BOOL_E ')' . '{' STMTS '}'
+   36            | IF '(' BOOL_E ')' . '{' STMTS '}' ELSE '{' STMTS '}'
+
+    '{'  shift, and go to state 78
+
+
+State 71
+
+   13 ASSIGN: TYPE ID '=' EXP . ';'
+
+    ';'  shift, and go to state 79
+
+
+State 72
+
+   18 AE: AE . '+' T
+   19   | AE . '-' T
+   33 RE: AE '=' '=' AE .  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '(', ')']
+
+    '+'  shift, and go to state 38
+    '-'  shift, and go to state 39
+
+    $default  reduce using rule 33 (RE)
+
+
+State 73
+
+   18 AE: AE . '+' T
+   19   | AE . '-' T
+   31 RE: AE '>' '=' AE .  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '(', ')']
+
+    '+'  shift, and go to state 38
+    '-'  shift, and go to state 39
+
+    $default  reduce using rule 31 (RE)
+
+
+State 74
+
+   18 AE: AE . '+' T
+   19   | AE . '-' T
+   32 RE: AE '<' '=' AE .  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '(', ')']
+
+    '+'  shift, and go to state 38
+    '-'  shift, and go to state 39
+
+    $default  reduce using rule 32 (RE)
+
+
+State 75
+
+   18 AE: AE . '+' T
+   19   | AE . '-' T
+   34 RE: AE '!' '=' AE .  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '(', ')']
+
+    '+'  shift, and go to state 38
+    '-'  shift, and go to state 39
+
+    $default  reduce using rule 34 (RE)
+
+
+State 76
+
+   40 DO_WHILE_LOOP: DO '{' STMTS '}' WHILE . '(' BOOL_E ')' ';'
+
+    '('  shift, and go to state 80
+
+
+State 77
+
+    2 STMTS: . STMTS STMT
+    3      | . STMT
+    4      | . %empty  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '(']
+    5 STMT: . DECL
+    6     | . ASSIGN
+    7     | . EXP
+    8     | . CONDITIONAL
+    9     | . LOOP
+   10     | . ';'
+   11 DECL: . TYPE ID ';'
+   12 ASSIGN: . ID '=' EXP ';'
+   13       | . TYPE ID '=' EXP ';'
+   14 EXP: . AE
+   15    | . BOOL_E
+   16 BOOL_E: . LE
+   17       | . RE
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   27 LE: . AE '&' AE
+   28   | . AE '|' AE
+   29 RE: . AE '>' AE
+   30   | . AE '<' AE
+   31   | . AE '>' '=' AE
+   32   | . AE '<' '=' AE
+   33   | . AE '=' '=' AE
+   34   | . AE '!' '=' AE
+   35 CONDITIONAL: . IF '(' BOOL_E ')' '{' STMTS '}'
+   36            | . IF '(' BOOL_E ')' '{' STMTS '}' ELSE '{' STMTS '}'
+   37 LOOP: . WHILE_LOOP
+   38     | . DO_WHILE_LOOP
+   39 WHILE_LOOP: . WHILE '(' BOOL_E ')' '{' STMTS '}'
+   39           | WHILE '(' BOOL_E ')' '{' . STMTS '}'
+   40 DO_WHILE_LOOP: . DO '{' STMTS '}' WHILE '(' BOOL_E ')' ';'
+
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+    DO     shift, and go to state 7
+    WHILE  shift, and go to state 8
+    IF     shift, and go to state 9
+    TYPE   shift, and go to state 10
+    ';'    shift, and go to state 11
+    '('    shift, and go to state 12
+
+    NUM       [reduce using rule 4 (STMTS)]
+    ID        [reduce using rule 4 (STMTS)]
+    DO        [reduce using rule 4 (STMTS)]
+    WHILE     [reduce using rule 4 (STMTS)]
+    IF        [reduce using rule 4 (STMTS)]
+    TYPE      [reduce using rule 4 (STMTS)]
+    ';'       [reduce using rule 4 (STMTS)]
+    '('       [reduce using rule 4 (STMTS)]
+    $default  reduce using rule 4 (STMTS)
+
+    STMTS          go to state 81
+    STMT           go to state 14
+    DECL           go to state 15
+    ASSIGN         go to state 16
+    EXP            go to state 17
+    BOOL_E         go to state 18
+    AE             go to state 19
+    T              go to state 20
+    F              go to state 21
+    LE             go to state 22
+    RE             go to state 23
+    CONDITIONAL    go to state 24
+    LOOP           go to state 25
+    WHILE_LOOP     go to state 26
+    DO_WHILE_LOOP  go to state 27
+
+
+State 78
+
+    2 STMTS: . STMTS STMT
+    3      | . STMT
+    4      | . %empty  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '(']
+    5 STMT: . DECL
+    6     | . ASSIGN
+    7     | . EXP
+    8     | . CONDITIONAL
+    9     | . LOOP
+   10     | . ';'
+   11 DECL: . TYPE ID ';'
+   12 ASSIGN: . ID '=' EXP ';'
+   13       | . TYPE ID '=' EXP ';'
+   14 EXP: . AE
+   15    | . BOOL_E
+   16 BOOL_E: . LE
+   17       | . RE
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   27 LE: . AE '&' AE
+   28   | . AE '|' AE
+   29 RE: . AE '>' AE
+   30   | . AE '<' AE
+   31   | . AE '>' '=' AE
+   32   | . AE '<' '=' AE
+   33   | . AE '=' '=' AE
+   34   | . AE '!' '=' AE
+   35 CONDITIONAL: . IF '(' BOOL_E ')' '{' STMTS '}'
+   35            | IF '(' BOOL_E ')' '{' . STMTS '}'
+   36            | . IF '(' BOOL_E ')' '{' STMTS '}' ELSE '{' STMTS '}'
+   36            | IF '(' BOOL_E ')' '{' . STMTS '}' ELSE '{' STMTS '}'
+   37 LOOP: . WHILE_LOOP
+   38     | . DO_WHILE_LOOP
+   39 WHILE_LOOP: . WHILE '(' BOOL_E ')' '{' STMTS '}'
+   40 DO_WHILE_LOOP: . DO '{' STMTS '}' WHILE '(' BOOL_E ')' ';'
+
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+    DO     shift, and go to state 7
+    WHILE  shift, and go to state 8
+    IF     shift, and go to state 9
+    TYPE   shift, and go to state 10
+    ';'    shift, and go to state 11
+    '('    shift, and go to state 12
+
+    NUM       [reduce using rule 4 (STMTS)]
+    ID        [reduce using rule 4 (STMTS)]
+    DO        [reduce using rule 4 (STMTS)]
+    WHILE     [reduce using rule 4 (STMTS)]
+    IF        [reduce using rule 4 (STMTS)]
+    TYPE      [reduce using rule 4 (STMTS)]
+    ';'       [reduce using rule 4 (STMTS)]
+    '('       [reduce using rule 4 (STMTS)]
+    $default  reduce using rule 4 (STMTS)
+
+    STMTS          go to state 82
+    STMT           go to state 14
+    DECL           go to state 15
+    ASSIGN         go to state 16
+    EXP            go to state 17
+    BOOL_E         go to state 18
+    AE             go to state 19
+    T              go to state 20
+    F              go to state 21
+    LE             go to state 22
+    RE             go to state 23
+    CONDITIONAL    go to state 24
+    LOOP           go to state 25
+    WHILE_LOOP     go to state 26
+    DO_WHILE_LOOP  go to state 27
+
+
+State 79
+
+   13 ASSIGN: TYPE ID '=' EXP ';' .
+
+    $default  reduce using rule 13 (ASSIGN)
+
+
+State 80
+
+   16 BOOL_E: . LE
+   17       | . RE
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   27 LE: . AE '&' AE
+   28   | . AE '|' AE
+   29 RE: . AE '>' AE
+   30   | . AE '<' AE
+   31   | . AE '>' '=' AE
+   32   | . AE '<' '=' AE
+   33   | . AE '=' '=' AE
+   34   | . AE '!' '=' AE
+   40 DO_WHILE_LOOP: DO '{' STMTS '}' WHILE '(' . BOOL_E ')' ';'
+
+    NUM  shift, and go to state 5
+    ID   shift, and go to state 33
+    '('  shift, and go to state 12
+
+    BOOL_E  go to state 83
+    AE      go to state 50
+    T       go to state 20
+    F       go to state 21
+    LE      go to state 22
+    RE      go to state 23
+
+
+State 81
+
+    2 STMTS: STMTS . STMT
+    5 STMT: . DECL
+    6     | . ASSIGN
+    7     | . EXP
+    8     | . CONDITIONAL
+    9     | . LOOP
+   10     | . ';'
+   11 DECL: . TYPE ID ';'
+   12 ASSIGN: . ID '=' EXP ';'
+   13       | . TYPE ID '=' EXP ';'
+   14 EXP: . AE
+   15    | . BOOL_E
+   16 BOOL_E: . LE
+   17       | . RE
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   27 LE: . AE '&' AE
+   28   | . AE '|' AE
+   29 RE: . AE '>' AE
+   30   | . AE '<' AE
+   31   | . AE '>' '=' AE
+   32   | . AE '<' '=' AE
+   33   | . AE '=' '=' AE
+   34   | . AE '!' '=' AE
+   35 CONDITIONAL: . IF '(' BOOL_E ')' '{' STMTS '}'
+   36            | . IF '(' BOOL_E ')' '{' STMTS '}' ELSE '{' STMTS '}'
+   37 LOOP: . WHILE_LOOP
+   38     | . DO_WHILE_LOOP
+   39 WHILE_LOOP: . WHILE '(' BOOL_E ')' '{' STMTS '}'
+   39           | WHILE '(' BOOL_E ')' '{' STMTS . '}'
+   40 DO_WHILE_LOOP: . DO '{' STMTS '}' WHILE '(' BOOL_E ')' ';'
+
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+    DO     shift, and go to state 7
+    WHILE  shift, and go to state 8
+    IF     shift, and go to state 9
+    TYPE   shift, and go to state 10
+    '}'    shift, and go to state 84
+    ';'    shift, and go to state 11
+    '('    shift, and go to state 12
+
+    STMT           go to state 36
+    DECL           go to state 15
+    ASSIGN         go to state 16
+    EXP            go to state 17
+    BOOL_E         go to state 18
+    AE             go to state 19
+    T              go to state 20
+    F              go to state 21
+    LE             go to state 22
+    RE             go to state 23
+    CONDITIONAL    go to state 24
+    LOOP           go to state 25
+    WHILE_LOOP     go to state 26
+    DO_WHILE_LOOP  go to state 27
+
+
+State 82
+
+    2 STMTS: STMTS . STMT
+    5 STMT: . DECL
+    6     | . ASSIGN
+    7     | . EXP
+    8     | . CONDITIONAL
+    9     | . LOOP
+   10     | . ';'
+   11 DECL: . TYPE ID ';'
+   12 ASSIGN: . ID '=' EXP ';'
+   13       | . TYPE ID '=' EXP ';'
+   14 EXP: . AE
+   15    | . BOOL_E
+   16 BOOL_E: . LE
+   17       | . RE
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   27 LE: . AE '&' AE
+   28   | . AE '|' AE
+   29 RE: . AE '>' AE
+   30   | . AE '<' AE
+   31   | . AE '>' '=' AE
+   32   | . AE '<' '=' AE
+   33   | . AE '=' '=' AE
+   34   | . AE '!' '=' AE
+   35 CONDITIONAL: . IF '(' BOOL_E ')' '{' STMTS '}'
+   35            | IF '(' BOOL_E ')' '{' STMTS . '}'
+   36            | . IF '(' BOOL_E ')' '{' STMTS '}' ELSE '{' STMTS '}'
+   36            | IF '(' BOOL_E ')' '{' STMTS . '}' ELSE '{' STMTS '}'
+   37 LOOP: . WHILE_LOOP
+   38     | . DO_WHILE_LOOP
+   39 WHILE_LOOP: . WHILE '(' BOOL_E ')' '{' STMTS '}'
+   40 DO_WHILE_LOOP: . DO '{' STMTS '}' WHILE '(' BOOL_E ')' ';'
+
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+    DO     shift, and go to state 7
+    WHILE  shift, and go to state 8
+    IF     shift, and go to state 9
+    TYPE   shift, and go to state 10
+    '}'    shift, and go to state 85
+    ';'    shift, and go to state 11
+    '('    shift, and go to state 12
+
+    STMT           go to state 36
+    DECL           go to state 15
+    ASSIGN         go to state 16
+    EXP            go to state 17
+    BOOL_E         go to state 18
+    AE             go to state 19
+    T              go to state 20
+    F              go to state 21
+    LE             go to state 22
+    RE             go to state 23
+    CONDITIONAL    go to state 24
+    LOOP           go to state 25
+    WHILE_LOOP     go to state 26
+    DO_WHILE_LOOP  go to state 27
+
+
+State 83
+
+   40 DO_WHILE_LOOP: DO '{' STMTS '}' WHILE '(' BOOL_E . ')' ';'
+
+    ')'  shift, and go to state 86
+
+
+State 84
+
+   39 WHILE_LOOP: WHILE '(' BOOL_E ')' '{' STMTS '}' .
+
+    $default  reduce using rule 39 (WHILE_LOOP)
+
+
+State 85
+
+   35 CONDITIONAL: IF '(' BOOL_E ')' '{' STMTS '}' .  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '(']
+   36            | IF '(' BOOL_E ')' '{' STMTS '}' . ELSE '{' STMTS '}'
+
+    ELSE  shift, and go to state 87
+
+    $default  reduce using rule 35 (CONDITIONAL)
+
+
+State 86
+
+   40 DO_WHILE_LOOP: DO '{' STMTS '}' WHILE '(' BOOL_E ')' . ';'
+
+    ';'  shift, and go to state 88
+
+
+State 87
+
+   36 CONDITIONAL: IF '(' BOOL_E ')' '{' STMTS '}' ELSE . '{' STMTS '}'
+
+    '{'  shift, and go to state 89
+
+
+State 88
+
+   40 DO_WHILE_LOOP: DO '{' STMTS '}' WHILE '(' BOOL_E ')' ';' .
+
+    $default  reduce using rule 40 (DO_WHILE_LOOP)
+
+
+State 89
+
+    2 STMTS: . STMTS STMT
+    3      | . STMT
+    4      | . %empty  [NUM, ID, DO, WHILE, IF, TYPE, '}', ';', '(']
+    5 STMT: . DECL
+    6     | . ASSIGN
+    7     | . EXP
+    8     | . CONDITIONAL
+    9     | . LOOP
+   10     | . ';'
+   11 DECL: . TYPE ID ';'
+   12 ASSIGN: . ID '=' EXP ';'
+   13       | . TYPE ID '=' EXP ';'
+   14 EXP: . AE
+   15    | . BOOL_E
+   16 BOOL_E: . LE
+   17       | . RE
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   27 LE: . AE '&' AE
+   28   | . AE '|' AE
+   29 RE: . AE '>' AE
+   30   | . AE '<' AE
+   31   | . AE '>' '=' AE
+   32   | . AE '<' '=' AE
+   33   | . AE '=' '=' AE
+   34   | . AE '!' '=' AE
+   35 CONDITIONAL: . IF '(' BOOL_E ')' '{' STMTS '}'
+   36            | . IF '(' BOOL_E ')' '{' STMTS '}' ELSE '{' STMTS '}'
+   36            | IF '(' BOOL_E ')' '{' STMTS '}' ELSE '{' . STMTS '}'
+   37 LOOP: . WHILE_LOOP
+   38     | . DO_WHILE_LOOP
+   39 WHILE_LOOP: . WHILE '(' BOOL_E ')' '{' STMTS '}'
+   40 DO_WHILE_LOOP: . DO '{' STMTS '}' WHILE '(' BOOL_E ')' ';'
+
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+    DO     shift, and go to state 7
+    WHILE  shift, and go to state 8
+    IF     shift, and go to state 9
+    TYPE   shift, and go to state 10
+    ';'    shift, and go to state 11
+    '('    shift, and go to state 12
+
+    NUM       [reduce using rule 4 (STMTS)]
+    ID        [reduce using rule 4 (STMTS)]
+    DO        [reduce using rule 4 (STMTS)]
+    WHILE     [reduce using rule 4 (STMTS)]
+    IF        [reduce using rule 4 (STMTS)]
+    TYPE      [reduce using rule 4 (STMTS)]
+    ';'       [reduce using rule 4 (STMTS)]
+    '('       [reduce using rule 4 (STMTS)]
+    $default  reduce using rule 4 (STMTS)
+
+    STMTS          go to state 90
+    STMT           go to state 14
+    DECL           go to state 15
+    ASSIGN         go to state 16
+    EXP            go to state 17
+    BOOL_E         go to state 18
+    AE             go to state 19
+    T              go to state 20
+    F              go to state 21
+    LE             go to state 22
+    RE             go to state 23
+    CONDITIONAL    go to state 24
+    LOOP           go to state 25
+    WHILE_LOOP     go to state 26
+    DO_WHILE_LOOP  go to state 27
+
+
+State 90
+
+    2 STMTS: STMTS . STMT
+    5 STMT: . DECL
+    6     | . ASSIGN
+    7     | . EXP
+    8     | . CONDITIONAL
+    9     | . LOOP
+   10     | . ';'
+   11 DECL: . TYPE ID ';'
+   12 ASSIGN: . ID '=' EXP ';'
+   13       | . TYPE ID '=' EXP ';'
+   14 EXP: . AE
+   15    | . BOOL_E
+   16 BOOL_E: . LE
+   17       | . RE
+   18 AE: . AE '+' T
+   19   | . AE '-' T
+   20   | . T
+   21 T: . T '*' F
+   22  | . T '/' F
+   23  | . F
+   24 F: . '(' AE ')'
+   25  | . NUM
+   26  | . ID
+   27 LE: . AE '&' AE
+   28   | . AE '|' AE
+   29 RE: . AE '>' AE
+   30   | . AE '<' AE
+   31   | . AE '>' '=' AE
+   32   | . AE '<' '=' AE
+   33   | . AE '=' '=' AE
+   34   | . AE '!' '=' AE
+   35 CONDITIONAL: . IF '(' BOOL_E ')' '{' STMTS '}'
+   36            | . IF '(' BOOL_E ')' '{' STMTS '}' ELSE '{' STMTS '}'
+   36            | IF '(' BOOL_E ')' '{' STMTS '}' ELSE '{' STMTS . '}'
+   37 LOOP: . WHILE_LOOP
+   38     | . DO_WHILE_LOOP
+   39 WHILE_LOOP: . WHILE '(' BOOL_E ')' '{' STMTS '}'
+   40 DO_WHILE_LOOP: . DO '{' STMTS '}' WHILE '(' BOOL_E ')' ';'
+
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+    DO     shift, and go to state 7
+    WHILE  shift, and go to state 8
+    IF     shift, and go to state 9
+    TYPE   shift, and go to state 10
+    '}'    shift, and go to state 91
+    ';'    shift, and go to state 11
+    '('    shift, and go to state 12
+
+    STMT           go to state 36
+    DECL           go to state 15
+    ASSIGN         go to state 16
+    EXP            go to state 17
+    BOOL_E         go to state 18
+    AE             go to state 19
+    T              go to state 20
+    F              go to state 21
+    LE             go to state 22
+    RE             go to state 23
+    CONDITIONAL    go to state 24
+    LOOP           go to state 25
+    WHILE_LOOP     go to state 26
+    DO_WHILE_LOOP  go to state 27
+
+
+State 91
+
+   36 CONDITIONAL: IF '(' BOOL_E ')' '{' STMTS '}' ELSE '{' STMTS '}' .
+
+    $default  reduce using rule 36 (CONDITIONAL)
