@@ -3,12 +3,63 @@
 using namespace std;
 class GenericParseNode {
 public:
-    enum type {
+    enum Type {
         PROGRAM, STMTS, STMT, DECL, ASSIGN, EXP, BOOL_E, AE, 
-        T,  F,  LE, RE, CONDITIONAL, LOOP, WHILE_LOOP, DO_WHILE_LOOP
-    } node_type;
+        T,  F,  LE, RE, CONDITIONAL, LOOP, WHILE_LOOP, DO_WHILE_LOOP, NULLTYPE, TERMINAL
+    } nodeType;
 
-    void printNode(){}
+    string terminalString;
+
+public:
+    int children;
+    GenericParseNode* nodes[3];
+
+    GenericParseNode(type _nodeType, string termString)
+    {
+        terminalString = termString;
+    }
+
+    GenericParseNode(type _nodeType, GenericParseNode* _node)
+    {
+        children = 1;
+        nodeType = _nodeType;
+        node[0] = _node;
+    }
+
+    GenericParseNode(type _nodeType, GenericParseNode* _node0, GenericParseNode* node1)
+    {
+        children = 2;
+        nodeType = _nodeType;
+        node[0] = _node0;
+        node[1] = _node1;
+    }
+
+    GenericParseNode(type _nodeType, GenericParseNode* _node0, GenericParseNode* node1, GenericParseNode* node2)
+    {
+        children = 3;
+        nodeType = _nodeType;
+        node[0] = _node0;
+        node[1] = _node1;
+        node[2] = _node2;
+    }
+
+    void printNode()
+    {
+        switch(nodeType) {
+        case PROGRAM:
+            cout << "main " << node0.printNode();
+            break;
+        case STMT:
+            cout <<
+        case EXPR:
+        case BOOL_E:
+        case AE:
+        case T:
+        case F:
+        case LE:
+        case LOOP:
+        }
+    }
 
     type getType()
     {
@@ -50,7 +101,7 @@ public:
 
 class Term {
     Term* term;
-    
+
 }
 
 class AssignmentNode : public StatementNode {

@@ -7,11 +7,34 @@
 %token NUM ID MAIN DO WHILE IF ELSE FOR TYPE
 %%
 
-PROGRAM: MAIN '{' STMTS '}';
-STMTS: STMTS STMT | STMT |;
-STMT: DECL | ASSIGN | EXP | CONDITIONAL | LOOP | ';';
-DECL: TYPE ID';';
-ASSIGN: ID '=' EXP ';' | TYPE ID '=' EXP ';';
+PROGRAM: MAIN '{' STMTS '}' {
+    $$ = new GenericParseNode(GenericParseNode::Type::PROGRAM, $3);
+};
+STMTS: STMTS STMT {
+    $$ = new GenericParseNode(GenericParseNode::Type::STMTS, $2, $3);
+} | STMT {
+    $$ = new GenericParseNode(GenericParseNode::Type::STMT, $2);
+}| {
+    // seriously think about this
+    $$ = new GenericParseNode(GenericParseNode::Type::NULLTYPE, $2)
+};
+STMT: DECL {
+    $$ = new GenericParseNode(GenericParseNode::Type::DECL, $2)
+} | ASSIGN {
+    $$ = new GenericParseNode(GenericParseNode::Type::ASSIGN, $2)
+}| EXP {
+    $$ = new GenericParseNode(GenericParseNode::Type::EXP, $2)
+}| CONDITIONAL {
+    $$ = new GenericParseNode(GenericParseNode::Type::CONDITIONAL, $2)
+}| LOOP {
+    $$ = new GenericParseNode(GenericParseNode::Type::LOOP, $2)
+}| ';';
+DECL: TYPE ID';' {
+    $$ = new GenericParseNode(GenericParseNode::Type::TERMINAL, $2, $3)
+};
+ASSIGN: ID '=' EXP ';' {
+    $$ = new GenericParseNode
+}| TYPE ID '=' EXP ';';
 EXP: AE | BOOL_E;
 BOOL_E: LE | RE;
 AE: AE '+' T | AE '-' T | T;
