@@ -2,38 +2,38 @@
     #include <iostream>
     #include <stdio.h>
     #define YYDEBUG 1
-
+    typedef GenericParseNode::Type Type
 %}
 %token NUM ID MAIN DO WHILE IF ELSE FOR TYPE
 %%
 
 PROGRAM: MAIN '{' STMTS '}' {
-    $$ = new GenericParseNode(GenericParseNode::Type::PROGRAM, $3);
+    $$ = new GenericParseNode(Type::PROGRAM, $3);
 };
 STMTS: STMTS STMT {
-    $$ = new GenericParseNode(GenericParseNode::Type::STMTS, $2, $3);
+    $$ = new GenericParseNode(Type::STMTS, new GenericParseNode(Type::STMTS, $2), new GenericParseNode(Type::STMT, $3));
 } | STMT {
-    $$ = new GenericParseNode(GenericParseNode::Type::STMT, $2);
+    $$ = new GenericParseNode(Type::STMTS, new GenericParseNode(Type::STMT, $2)); 
 }| {
     // seriously think about this
-    $$ = new GenericParseNode(GenericParseNode::Type::NULLTYPE, $2)
+    $$ = new GenericParseNode(Type::STMTS, $2)
 };
 STMT: DECL {
-    $$ = new GenericParseNode(GenericParseNode::Type::DECL, $2)
+    $$ = new GenericParseNode(Type::STMT, new GenericParseNode(Type::DECL, $2));
 } | ASSIGN {
-    $$ = new GenericParseNode(GenericParseNode::Type::ASSIGN, $2)
+    $$ = new GenericParseNode(Type::STMT, new GenericParseNode(Type::ASSIGN, $2));
 }| EXP {
-    $$ = new GenericParseNode(GenericParseNode::Type::EXP, $2)
+    $$ = new GenericParseNode(Type::STMT, new GenericParseNode(Type::EXP, $2));
 }| CONDITIONAL {
-    $$ = new GenericParseNode(GenericParseNode::Type::CONDITIONAL, $2)
+    $$ = new GenericParseNode(Type::STMT, new GenericParseNode(Type::CONDITIONAL, $2));
 }| LOOP {
-    $$ = new GenericParseNode(GenericParseNode::Type::LOOP, $2)
+    $$ = new GenericParseNode(Type::STMT, new GenericParseNode(Type::LOOP, $2));
 }| ';';
 DECL: TYPE ID';' {
-    $$ = new GenericParseNode(GenericParseNode::Type::TERMINAL, $2, $3)
+    $$ = new GenericParseNode(Type::DECL, new GenericParseNode(Type::TYPE, $2), new GenericParseNode(Type::ID, $2));
 };
 ASSIGN: ID '=' EXP ';' {
-    $$ = new GenericParseNode
+    $$ = new GenericParseNode(Type::ASSIGN, new GenericParseNode(Type::ID, $2))
 }| TYPE ID '=' EXP ';';
 EXP: AE | BOOL_E;
 BOOL_E: LE | RE;
