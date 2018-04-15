@@ -1,6 +1,8 @@
 %{
+    #include <iostream>
     #include <stdio.h>
     #define YYDEBUG 1
+
 %}
 %token NUM ID MAIN DO WHILE IF ELSE FOR TYPE
 %%

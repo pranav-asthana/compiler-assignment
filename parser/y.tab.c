@@ -64,10 +64,12 @@
 /* Copy the first part of user declarations.  */
 #line 1 "c_prod.y" /* yacc.c:339  */
 
+    #include <iostream>
     #include <stdio.h>
     #define YYDEBUG 1
 
-#line 71 "y.tab.c" /* yacc.c:339  */
+
+#line 73 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -140,7 +142,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 144 "y.tab.c" /* yacc.c:358  */
+#line 146 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -438,11 +440,11 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,     8,     8,    10,    10,    10,    12,    12,    12,    12,
-      12,    12,    14,    16,    16,    18,    18,    19,    19,    21,
-      21,    21,    22,    22,    22,    23,    23,    23,    25,    25,
-      27,    27,    27,    27,    27,    27,    29,    29,    31,    31,
-      32,    33
+       0,    10,    10,    11,    11,    11,    12,    12,    12,    12,
+      12,    12,    13,    14,    14,    15,    15,    16,    16,    17,
+      17,    17,    18,    18,    18,    19,    19,    19,    20,    20,
+      21,    21,    21,    21,    21,    21,    22,    22,    23,    23,
+      24,    25
 };
 #endif
 
@@ -1280,7 +1282,7 @@ yyreduce:
   switch (yyn)
     {
       
-#line 1284 "y.tab.c" /* yacc.c:1646  */
+#line 1286 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1508,7 +1510,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 35 "c_prod.y" /* yacc.c:1906  */
+#line 27 "c_prod.y" /* yacc.c:1906  */
 
 int yyerror(char *s)
 {
