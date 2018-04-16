@@ -2,18 +2,19 @@
 #include <iostream>
 #include <vector>
 #include <stdint.h>
+#include <ctype.h>
 using namespace std;
 
 class ParseTable
 {
     struct Action {
-        uint8_t shift;
-        uint8_t reduce;
+        int shift;
+        int reduce;
     };
 
-    uint8_t states;
+    int states;
     vector<vector<Action>> actionTable;
-    vector<vector<uint8_t>> gotoTable;
+    vector<vector<int>> gotoTable;
 
     vector<string> nonTerminals;
     vector<string> actionSymbols;
@@ -60,52 +61,60 @@ public:
             nonTerminals.push_back(res.at(i));
         }
 
-        cout << "action time\n";
-        for (string x : actionSymbols) {
-            cout << x << " ";
-        }
-        cout << "\ngoto time\n";
-        for (string x : nonTerminals) {
-            cout << x << " ";
-        }
+        // cout << "action time\n";
+        // for (string x : actionSymbols) {
+        //     cout << x << " ";
+        // }
+        // cout << "\ngoto time\n";
+        // for (string x : nonTerminals) {
+        //     cout << x << " ";
+        // }
 
         if (input.is_open()) {
+            // cout << "start!\n";
             while (getline(input, line)) {
                 vector<string> splitLine = split(line, "\t");
+                // for (string x : splitLine) {
+                //     cout << x << " ";
+                // }
                 vector<Action> actionList;
                 int i = 1;
-                for (; i < getActionSymbolCount(); i++) {
+                for (i = 1; i < getActionSymbolCount(); i++) {
                     Action action;
                     char actionType;
                     int state0;
                     int state1;
-                    if (splitLine.at(i).find_first_of("/") == string::npos) {
-                        sscanf(splitLine.at(i).c_str(), "%c%d", &actionType, &state0);
-                        if (actionType == 's') {
-                            action.shift = state0;
-                            action.reduce = -1;
+                    if (isalpha(splitLine[i][0])) {
+                        if (splitLine.at(i).find_first_of("/") == string::npos) {
+                            sscanf(splitLine.at(i).c_str(), "%c%d", &actionType, &state0);
+                            if (actionType == 's') {
+                                action.shift = state0;
+                                action.reduce = -1;
+                                // cout << "shift " << state0 << endl;
+                            } else {
+                                action.shift = -1;
+                                action.reduce = state0;
+                                // cout << "reduce " << state0 << endl;
+                            }
                         } else {
-                            action.shift = -1;
-                            action.reduce = state0;
+                            sscanf(splitLine.at(i).c_str(), "s%d / r%d", &state0, &state1);
+                            action.shift = state0;
+                            action.reduce = state1;
                         }
-                    } else {
-                        sscanf(splitLine.at(i).c_str(), "s%d / r%d", &state0, &state1);
-                        action.shift = state0;
-                        action.reduce = state1;
+                        // cout << "s " << action.shift << " r " << action.reduce << "\n";
+                        actionList.push_back(action);
                     }
-                    cout << splitLine[i] << " s " << action.shift << " r " << action.reduce << "\n";
-                    actionList.push_back(action);
                 }
                 actionTable.push_back(actionList);
 
-                vector<uint8_t> states;
+                vector<int> states;
                 for (int j = 0; j < getNonTerminalCount(); j++) {
                     int state;
                     string tmp = splitLine.at(i+j);
-                    if (tmp == "") {
-                        state = -1;
-                    } else {
+                    if (isdigit(tmp[0])) {
                         sscanf(tmp.c_str(), "%d", &state);
+                    } else {
+                        state = -1;
                     }
                     states.push_back(state);
                 }
@@ -118,6 +127,12 @@ public:
     ParseTable(string filename)
     {
         readParseTableFromFile(filename);
+        for (auto it = gotoTable.begin(); it != gotoTable.end(); it++) {
+            for (auto it0 = it->begin(); it0 != it->end(); it0++) {
+                cout << *it0 << " ";
+            }
+            cout << endl;
+        }
     }
 };
 
