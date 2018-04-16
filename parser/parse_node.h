@@ -43,9 +43,16 @@ public:
         nodes[2] = _node2;
     }
 
-    void printNode()
+    void printNode(GenericParseNode* node)
     {
-        switch(nodeType) {
+        for (int i = 0; i < children; i++) {
+            if (node[i].nodeType == TERMINAL) {
+                cout << node[i].terminalString;
+            } else {
+                printNode(&node[i]);
+            }
+        }
+        switch(node->nodeType) {
         // case PROGRAM:
         //     // cout << "main "; 
         //     // nodes[0]->printNode();

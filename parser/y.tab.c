@@ -67,7 +67,7 @@
     #include <iostream>
     #include <stdio.h>
     #define YYDEBUG 1
-
+    typedef GenericParseNode::Type Type
 
 #line 73 "y.tab.c" /* yacc.c:339  */
 
