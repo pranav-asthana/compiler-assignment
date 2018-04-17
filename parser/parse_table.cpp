@@ -161,11 +161,57 @@ public:
     }
 };
 
+struct Production {
+    string nonTerminalString;
+    vector<vector<string>> rules;
+};
+
 class Parser {
     stack<int> stateStack;
     stack<string> symbolStack;
     vector<string> input;
+    vector<Production> productions;
+    vector<string> split(const string &text, string sep)
+    {
+        vector<string> tokens;
+        size_t start = 0, end = 0;
+        while ((end = text.find(sep, start)) != string::npos) {
+            tokens.push_back(text.substr(start, end - start));
+            start = end + sep.length();
+        }
+        tokens.push_back(text.substr(start));
+        return tokens;
+    }
 public:
+    void readRules(string rulesFile)
+    {
+        string line;
+
+        vector<string> fileContents;
+        ifstream input(rulesFile);
+        if (input.is_open()) {
+            getline(input, line);
+            fileContents.push_back(line);
+        }
+        auto it = fileContents.begin();
+        string nonTerm, ruleString, parsedRule;
+        while (it != fileContents.end()) {
+            sscanf(it->c_str(), "%s -> %s", nonTerm, ruleString);
+            Production production;
+            production.nonTerminalString = nonTerm;
+            parsedRule = split(ruleString, " ");
+            production.rules.push_back(parsedRule);
+            while (strncmp(it->c_str(), nonTerm, strlen(nonTerm)) == 0) {
+                sscanf(it->c_str(), "%s -> %s", nonTerm, ruleString);
+                parsedRule = split(ruleString, " ");
+                production.rules.push_back(parsedRule);
+                it++;
+            }
+            productions.push_back(production);
+            it++;
+        }
+    }
+
     Parser(vector<string> _input, string filename)
     {
         input = _input;
