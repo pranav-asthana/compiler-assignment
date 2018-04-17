@@ -113,9 +113,11 @@ public:
                             if (actionType == 's') {
                                 action.shift = state0;
                                 // cout << "shift " << state0 << endl;
-                            } else {
+                            } else if (actionType == 'r') {
                                 action.reduce = state0;
                                 // cout << "reduce " << state0 << endl;
+                            } else if (actionType == 'a') {
+                                action.shift = -999;
                             }
                         } else {
                             cout << "Conflict in parsing.\n";
@@ -170,13 +172,30 @@ public:
         ParseTable parseTable(filename);
         stateStack.push(0);
         int inputPtr = 0;
-
+        int s, a;
         while (true) {
             string currentInput = input.at(inputPtr);
-            int s = stateStack.top();
-            int a = ParseTable.getActionSymbolIndex(currentInput);
-            if (ParseTable.actionTable[s][a].) {
+            s = stateStack.top();
+            a = ParseTable.getActionSymbolIndex(currentInput);
+            Action action = ParseTable.actionTable[s][a];
+            if (action.shift == -999) {
+                cout << "Parsing completed";
+                return;
+            }
+            if (action.shift != -1) {
+                stackState.push(action.shift);
+                inputPtr++;
+            } else if (action.reduce != -1) {
+                // pop symbols off symbol stack
+                string nt;
 
+                s = stateStack.top();
+                a = ParseTable.getNonTerminalIndex(nt);
+                stateStack.push(parseTable.gotoTable[s][a]);
+                // cout production
+            } else {
+                cout << "Oh dear";
+                return;
             }
         }
     }
