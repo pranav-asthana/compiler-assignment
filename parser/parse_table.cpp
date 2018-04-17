@@ -1,24 +1,29 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <stack>
+#include <algorithm>
 #include <stdint.h>
 #include <ctype.h>
 using namespace std;
 
+struct Action {
+    int shift;
+    int reduce;
+    int reduce2;
+public:
+    Action()
+    {
+        shift = -1;
+        reduce = -1;
+        reduce2 = -1;
+    }
+};
+
 class ParseTable
 {
-    struct Action {
-        int shift;
-        int reduce;
-    };
 
-    int states;
-    vector<vector<Action>> actionTable;
-    vector<vector<int>> gotoTable;
-
-    vector<string> nonTerminals;
-    vector<string> actionSymbols;
- 
+    int states; 
     vector<string> split(const string &text, string sep)
     {
         vector<string> tokens;
@@ -32,6 +37,24 @@ class ParseTable
     }
 
 public:
+    vector<vector<Action>> actionTable;
+    vector<vector<int>> gotoTable;
+
+    vector<string> nonTerminals;
+    vector<string> actionSymbols;
+
+    int getActionSymbolIndex(string symbol)
+    {
+        auto it = find(actionSymbols.begin(), actionSymbols.end(), symbol);
+        return (it - actionSymbols.begin());
+    }
+
+    int getNonTerminalIndex(string nonTerminal)
+    {
+        auto it = find(nonTerminals.begin(), nonTerminals.end(), nonTerminal);
+        return (it - nonTerminals.begin());
+    }
+
     int getNonTerminalCount()
     {
         return nonTerminals.size();
@@ -89,17 +112,17 @@ public:
                             sscanf(splitLine.at(i).c_str(), "%c%d", &actionType, &state0);
                             if (actionType == 's') {
                                 action.shift = state0;
-                                action.reduce = -1;
                                 // cout << "shift " << state0 << endl;
                             } else {
-                                action.shift = -1;
                                 action.reduce = state0;
                                 // cout << "reduce " << state0 << endl;
                             }
                         } else {
+                            cout << "Conflict in parsing.\n";
                             sscanf(splitLine.at(i).c_str(), "s%d / r%d", &state0, &state1);
                             action.shift = state0;
                             action.reduce = state1;
+                            exit(0);
                         }
                         // cout << "s " << action.shift << " r " << action.reduce << "\n";
                         actionList.push_back(action);
@@ -135,6 +158,32 @@ public:
         }
     }
 };
+
+class Parser {
+    stack<int> stateStack;
+    stack<string> symbolStack;
+    vector<string> input;
+public:
+    Parser(vector<string> _input, string filename)
+    {
+        input = _input;
+        ParseTable parseTable(filename);
+        stateStack.push(0);
+        int inputPtr = 0;
+
+        while (true) {
+            string currentInput = input.at(inputPtr);
+            int s = stateStack.top();
+            int a = ParseTable.getActionSymbolIndex(currentInput);
+            if (ParseTable.actionTable[s][a].) {
+
+            }
+        }
+    }
+
+
+};
+
 
 int main() 
 {
