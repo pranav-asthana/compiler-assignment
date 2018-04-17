@@ -24,7 +24,7 @@ MAIN	{	}	;	TYPE	ID	=	+	-	*	/	(	)	NUM	&	|	>	<	!	IF	ELSE	WHILE	DO	$	PROGRAM	STMTS	
 22	 	 	 	r20	 	 	r20	r20	r20	r20	r20	 	r20	 	r20	r20	r20	r20	r20	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 
 23	 	 	 	 	 	 	 	 	 	 	 	s23	 	s24	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	43	17	22	 	 	 	 	 	 
 24	 	 	 	r22	 	 	r22	r22	r22	r22	r22	 	r22	 	r22	r22	r22	r22	r22	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 
-25	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	acc	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 
+25	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	a0	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 
 26	 	 	 	s44	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 
 27	 	 	r2	 	r2	r2	 	 	 	 	 	r2	 	r2	 	 	 	 	 	r2	 	r2	r2	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 
 28	 	 	 	r8	 	 	s45	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 

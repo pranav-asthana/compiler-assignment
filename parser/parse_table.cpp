@@ -176,21 +176,21 @@ public:
         while (true) {
             string currentInput = input.at(inputPtr);
             s = stateStack.top();
-            a = ParseTable.getActionSymbolIndex(currentInput);
-            Action action = ParseTable.actionTable[s][a];
+            a = parseTable.getActionSymbolIndex(currentInput);
+            Action action = parseTable.actionTable[s][a];
             if (action.shift == -999) {
                 cout << "Parsing completed";
                 return;
             }
             if (action.shift != -1) {
-                stackState.push(action.shift);
+                stateStack.push(action.shift);
                 inputPtr++;
             } else if (action.reduce != -1) {
                 // pop symbols off symbol stack
                 string nt;
 
                 s = stateStack.top();
-                a = ParseTable.getNonTerminalIndex(nt);
+                a = parseTable.getNonTerminalIndex(nt);
                 stateStack.push(parseTable.gotoTable[s][a]);
                 // cout production
             } else {
