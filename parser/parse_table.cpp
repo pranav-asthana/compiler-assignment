@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <stdint.h>
 #include <ctype.h>
+#include <string.h>
 using namespace std;
 
 struct Action {
@@ -194,15 +195,19 @@ public:
             fileContents.push_back(line);
         }
         auto it = fileContents.begin();
-        string nonTerm, ruleString, parsedRule;
+        string nonTerm, ruleString;
+        vector<string> parsedRule;
         while (it != fileContents.end()) {
-            sscanf(it->c_str(), "%s -> %s", nonTerm, ruleString);
+            char _nonTerm[512], _ruleString[512];
+            sscanf(it->c_str(), "%s -> %s", _nonTerm, _ruleString);
+            nonTerm = _nonTerm;
+            ruleString = _ruleString;
             Production production;
             production.nonTerminalString = nonTerm;
             parsedRule = split(ruleString, " ");
             production.rules.push_back(parsedRule);
-            while (strncmp(it->c_str(), nonTerm, strlen(nonTerm)) == 0) {
-                sscanf(it->c_str(), "%s -> %s", nonTerm, ruleString);
+            while (strncmp(it->c_str(), nonTerm.c_str(), nonTerm.length()) == 0) {
+                sscanf(it->c_str(), "%s -> %s", _nonTerm, _ruleString);
                 parsedRule = split(ruleString, " ");
                 production.rules.push_back(parsedRule);
                 it++;
