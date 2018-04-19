@@ -98,6 +98,7 @@ public:
             // cout << "start!\n";
             while (getline(input, line)) {
                 vector<string> splitLine = split(line, "\t");
+                // cout << splitLine.size() << endl;
                 // for (string x : splitLine) {
                 //     cout << x << " ";
                 // }
@@ -122,14 +123,14 @@ public:
                             }
                         } else {
                             cout << "Conflict in parsing.\n";
+                            exit(0);
                             sscanf(splitLine.at(i).c_str(), "s%d / r%d", &state0, &state1);
                             action.shift = state0;
                             action.reduce = state1;
-                            exit(0);
                         }
                         // cout << "s " << action.shift << " r " << action.reduce << "\n";
-                        actionList.push_back(action);
                     }
+                    actionList.push_back(action);
                 }
                 actionTable.push_back(actionList);
 
@@ -153,9 +154,15 @@ public:
     ParseTable(string filename)
     {
         readParseTableFromFile(filename);
-        for (auto it = gotoTable.begin(); it != gotoTable.end(); it++) {
+        // for (auto it = gotoTable.begin(); it != gotoTable.end(); it++) {
+        //     for (auto it0 = it->begin(); it0 != it->end(); it0++) {
+        //         cout << *it0 << " ";
+        //     }
+        //     cout << endl;
+        // }
+        for (auto it = actionTable.begin(); it != actionTable.end(); it++) {
             for (auto it0 = it->begin(); it0 != it->end(); it0++) {
-                cout << *it0 << " ";
+                cout << it0->shift << "/" << it0->reduce << " ";
             }
             cout << endl;
         }
@@ -276,6 +283,8 @@ public:
                 return;
             }
             if (action.shift != -1) {
+                cout << "shift " << s << " " << a << " " << endl;
+
                 stateStack.push(action.shift);
                 inputPtr++;
             } else if (action.reduce != -1) {
@@ -290,9 +299,14 @@ public:
                 s = stateStack.top();
                 a = parseTable.getNonTerminalIndex(nt);
                 stateStack.push(parseTable.gotoTable[s][a]);
+                cout << "Reducing: " << ruleList.at(action.reduce).nonTerm << " -> ";
+                for (string s : ruleList.at(action.reduce).parsedRuleRHS) {
+                    cout << s << " ";
+                }
+                cout << endl;
                 // cout production
             } else {
-                cout << "Oh dear";
+                cout << "Oh dear " << s << " " << a << " " << parseTable.actionTable[s][a].shift << "/" << parseTable.actionTable[s][a].reduce  << endl;
                 return;
             }
         }
@@ -308,6 +322,7 @@ public:
 int main() 
 {
     // ParseTable parseTable("tableP");
-    Parser parser("rules");
+    // Parser parser("rules");
+    Parser parser("MAIN { STMTS }", "tableP", "rules");
     return 0;
 }
