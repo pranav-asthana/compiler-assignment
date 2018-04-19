@@ -258,10 +258,9 @@ public:
         // }
     }
 
-    Parser(vector<string> _input, string filename, string rulesFile)
+    Parser(string _input, string filename, string rulesFile)
     {
-
-        input = _input;
+        input = split(_input, " ");
         ParseTable parseTable(filename);
         readRules(rulesFile);
         stateStack.push(0);
