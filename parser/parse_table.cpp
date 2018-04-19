@@ -191,33 +191,54 @@ public:
         vector<string> fileContents;
         ifstream input(rulesFile);
         if (input.is_open()) {
-            getline(input, line);
-            fileContents.push_back(line);
+            while (getline(input, line)) {
+                fileContents.push_back(line);
+            }
         }
+        // for (auto it = fileContents.begin(); it != fileContents.end(); it++) {
+        //     cout << *it << endl;
+        // }
         auto it = fileContents.begin();
         string nonTerm, ruleString;
         vector<string> parsedRule;
         while (it != fileContents.end()) {
             char _nonTerm[512], _ruleString[512];
-            sscanf(it->c_str(), "%s -> %s", _nonTerm, _ruleString);
-            nonTerm = _nonTerm;
-            ruleString = _ruleString;
+            auto nt_rule_split = split(*it, " -> ");
+            nonTerm = nt_rule_split[0];
+            ruleString = nt_rule_split[1];
             Production production;
             production.nonTerminalString = nonTerm;
+            // cout << "non - " << nonTerm;
+            // cout << " rule - " << ruleString;
+            // cout << endl;
+            // it++;
             parsedRule = split(ruleString, " ");
             production.rules.push_back(parsedRule);
-            while (strncmp(it->c_str(), nonTerm.c_str(), nonTerm.length()) == 0) {
-                sscanf(it->c_str(), "%s -> %s", _nonTerm, _ruleString);
+            it++;
+            // while (strncmp(it->c_str(), nonTerm.c_str(), nonTerm.length()) == 0) {
+            while (it->compare(0, nonTerm.length(), nonTerm) == 0) {
+                nt_rule_split = split(*it, " -> ");
+                ruleString = nt_rule_split[1];
                 parsedRule = split(ruleString, " ");
                 production.rules.push_back(parsedRule);
                 it++;
             }
             productions.push_back(production);
-            it++;
+            // it++;
+        }
+        for (Production p : productions) {
+            cout << "nt\n" << p.nonTerminalString << endl;
+            for (vector<string> r : p.rules) {
+                cout << "\nrule\n";
+                for (string x : r) {
+                    cout << x << "|";
+                }
+            }
+            cout << endl;
         }
     }
 
-    Parser(vector<string> _input, string filename)
+    Parser(vector<string> _input, string filename, string rulesFile)
     {
         input = _input;
         ParseTable parseTable(filename);
@@ -251,12 +272,18 @@ public:
         }
     }
 
+    Parser(string rulesFile)
+    {
+        readRules(rulesFile);
+    }
+
 
 };
 
 
 int main() 
 {
-    ParseTable parseTable("tableP");
+    // ParseTable parseTable("tableP");
+    Parser parser("rules");
     return 0;
 }
