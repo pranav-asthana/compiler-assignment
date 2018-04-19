@@ -160,12 +160,12 @@ public:
         //     }
         //     cout << endl;
         // }
-        for (auto it = actionTable.begin(); it != actionTable.end(); it++) {
-            for (auto it0 = it->begin(); it0 != it->end(); it0++) {
-                cout << it0->shift << "/" << it0->reduce << " ";
-            }
-            cout << endl;
-        }
+        // for (auto it = actionTable.begin(); it != actionTable.end(); it++) {
+        //     for (auto it0 = it->begin(); it0 != it->end(); it0++) {
+        //         cout << it0->shift << "/" << it0->reduce << " ";
+        //     }
+        //     cout << endl;
+        // }
     }
 };
 
@@ -233,6 +233,7 @@ public:
             // it++;
             parsedRule = split(ruleString, " ");
             production.rules.push_back(parsedRule);
+            ruleList.push_back(Rule(nonTerm, parsedRule));
             it++;
             // while (strncmp(it->c_str(), nonTerm.c_str(), nonTerm.length()) == 0) {
             while (it->compare(0, nonTerm.length(), nonTerm) == 0) {
@@ -256,13 +257,14 @@ public:
         //     }
         //     cout << endl;
         // }
-        // for (Rule r : ruleList) {
-        //     cout << r.nonTerm << " -> ";
-        //     for (string x : r.parsedRuleRHS) {
-        //         cout << x << " ";
-        //     }
-        //     cout << endl;
-        // }
+        int i = 0;
+        for (Rule r : ruleList) {
+            cout << i++<< " " << r.nonTerm << " -> ";
+            for (string x : r.parsedRuleRHS) {
+                cout << x << " ";
+            }
+            cout << endl;
+        }
     }
 
     Parser(string _input, string filename, string rulesFile)
@@ -275,20 +277,24 @@ public:
         int s, a;
         while (true) {
             string currentInput = input.at(inputPtr);
+            cout << currentInput << endl;
             s = stateStack.top();
             a = parseTable.getActionSymbolIndex(currentInput);
             Action action = parseTable.actionTable[s][a];
+            cout << parseTable.actionTable[s][a].shift << "/" << parseTable.actionTable[s][a].reduce << endl;
             if (action.shift == -999) {
                 cout << "Parsing completed";
                 return;
             }
             if (action.shift != -1) {
-                cout << "shift " << s << " " << a << " " << endl;
+                cout << "shift " << action.shift << " " << endl;
 
                 stateStack.push(action.shift);
+                symbolStack.push(currentInput);
                 inputPtr++;
             } else if (action.reduce != -1) {
-                int pop_size = ruleList.at(action.reduce).parsedRuleRHS.size();
+                Rule rule = ruleList.at(action.reduce);
+                int pop_size = rule.parsedRuleRHS.size();
                 string nt = ruleList.at(action.reduce).nonTerm;
                 while (pop_size > 0) {
                     symbolStack.pop();
@@ -298,7 +304,8 @@ public:
 
                 s = stateStack.top();
                 a = parseTable.getNonTerminalIndex(nt);
-                stateStack.push(parseTable.gotoTable[s][a]);
+                symbolStack.push(nt);
+                stateStack.push(parseTable.gotoTable[s][a+1]);
                 cout << "Reducing: " << ruleList.at(action.reduce).nonTerm << " -> ";
                 for (string s : ruleList.at(action.reduce).parsedRuleRHS) {
                     cout << s << " ";
@@ -323,6 +330,6 @@ int main()
 {
     // ParseTable parseTable("tableP");
     // Parser parser("rules");
-    Parser parser("MAIN { STMTS }", "tableP", "rules");
+    Parser parser("MAIN { NUM ; }", "tableP", "rules");
     return 0;
 }
