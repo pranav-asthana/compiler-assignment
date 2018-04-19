@@ -167,11 +167,23 @@ struct Production {
     vector<vector<string>> rules;
 };
 
+class Rule {
+public:
+    string nonTerm;
+    vector<string> parsedRuleRHS;
+    Rule(string _nonTerm, vector<string> _rhs)
+    {
+        nonTerm = _nonTerm;
+        parsedRuleRHS = _rhs;
+    }
+};
+
 class Parser {
     stack<int> stateStack;
     stack<string> symbolStack;
     vector<string> input;
     vector<Production> productions;
+    vector<Rule> ruleList;
     vector<string> split(const string &text, string sep)
     {
         vector<string> tokens;
@@ -221,21 +233,29 @@ public:
                 ruleString = nt_rule_split[1];
                 parsedRule = split(ruleString, " ");
                 production.rules.push_back(parsedRule);
+                ruleList.push_back(Rule(nonTerm, parsedRule));
                 it++;
             }
             productions.push_back(production);
             // it++;
         }
-        for (Production p : productions) {
-            cout << "nt\n" << p.nonTerminalString << endl;
-            for (vector<string> r : p.rules) {
-                cout << "\nrule\n";
-                for (string x : r) {
-                    cout << x << "|";
-                }
-            }
-            cout << endl;
-        }
+        // for (Production p : productions) {
+        //     cout << "nt\n" << p.nonTerminalString << endl;
+        //     for (vector<string> r : p.rules) {
+        //         cout << "\nrule\n";
+        //         for (string x : r) {
+        //             cout << x << "|";
+        //         }
+        //     }
+        //     cout << endl;
+        // }
+        // for (Rule r : ruleList) {
+        //     cout << r.nonTerm << " -> ";
+        //     for (string x : r.parsedRuleRHS) {
+        //         cout << x << " ";
+        //     }
+        //     cout << endl;
+        // }
     }
 
     Parser(vector<string> _input, string filename, string rulesFile)
