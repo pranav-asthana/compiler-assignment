@@ -260,8 +260,10 @@ public:
 
     Parser(vector<string> _input, string filename, string rulesFile)
     {
+
         input = _input;
         ParseTable parseTable(filename);
+        readRules(rulesFile);
         stateStack.push(0);
         int inputPtr = 0;
         int s, a;
@@ -278,8 +280,13 @@ public:
                 stateStack.push(action.shift);
                 inputPtr++;
             } else if (action.reduce != -1) {
-                // pop symbols off symbol stack
-                string nt;
+                int pop_size = ruleList.at(action.reduce).parsedRuleRHS.size();
+                string nt = ruleList.at(action.reduce).nonTerm;
+                while (pop_size > 0) {
+                    symbolStack.pop();
+                    pop_size--;
+                }
+                stateStack.pop();
 
                 s = stateStack.top();
                 a = parseTable.getNonTerminalIndex(nt);
@@ -296,8 +303,6 @@ public:
     {
         readRules(rulesFile);
     }
-
-
 };
 
 
