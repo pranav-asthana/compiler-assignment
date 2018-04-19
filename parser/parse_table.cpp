@@ -270,6 +270,7 @@ public:
     Parser(string _input, string filename, string rulesFile)
     {
         input = split(_input, " ");
+        input.push_back("$");
         ParseTable parseTable(filename);
         readRules(rulesFile);
         stateStack.push(0);
@@ -282,7 +283,7 @@ public:
             a = parseTable.getActionSymbolIndex(currentInput);
             Action action = parseTable.actionTable[s][a];
             cout << parseTable.actionTable[s][a].shift << "/" << parseTable.actionTable[s][a].reduce << endl;
-            if (action.shift == -999) {
+            if (action.shift == 0) {
                 cout << "Parsing completed";
                 return;
             }
@@ -298,9 +299,9 @@ public:
                 string nt = ruleList.at(action.reduce).nonTerm;
                 while (pop_size > 0) {
                     symbolStack.pop();
+                    stateStack.pop();
                     pop_size--;
                 }
-                stateStack.pop();
 
                 s = stateStack.top();
                 a = parseTable.getNonTerminalIndex(nt);
@@ -330,6 +331,6 @@ int main()
 {
     // ParseTable parseTable("tableP");
     // Parser parser("rules");
-    Parser parser("MAIN { NUM ; }", "tableP", "rules");
+    Parser parser("MAIN { NUM = = NUM ; NUM = = NUM ; }", "tableP", "rules");
     return 0;
 }
