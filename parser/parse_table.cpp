@@ -85,23 +85,9 @@ public:
             nonTerminals.push_back(res.at(i));
         }
 
-        // cout << "action time\n";
-        // for (string x : actionSymbols) {
-        //     cout << x << " ";
-        // }
-        // cout << "\ngoto time\n";
-        // for (string x : nonTerminals) {
-        //     cout << x << " ";
-        // }
-
         if (input.is_open()) {
-            // cout << "start!\n";
             while (getline(input, line)) {
                 vector<string> splitLine = split(line, "\t");
-                // cout << splitLine.size() << endl;
-                // for (string x : splitLine) {
-                //     cout << x << " ";
-                // }
                 vector<Action> actionList;
                 int i = 1;
                 for (i = 1; i < getActionSymbolCount(); i++) {
@@ -114,10 +100,8 @@ public:
                             sscanf(splitLine.at(i).c_str(), "%c%d", &actionType, &state0);
                             if (actionType == 's') {
                                 action.shift = state0;
-                                // cout << "shift " << state0 << endl;
                             } else if (actionType == 'r') {
                                 action.reduce = state0;
-                                // cout << "reduce " << state0 << endl;
                             } else if (actionType == 'a') {
                                 action.shift = -999;
                             }
@@ -128,7 +112,6 @@ public:
                             action.shift = state0;
                             action.reduce = state1;
                         }
-                        // cout << "s " << action.shift << " r " << action.reduce << "\n";
                     }
                     actionList.push_back(action);
                 }
@@ -214,9 +197,7 @@ public:
                 fileContents.push_back(line);
             }
         }
-        // for (auto it = fileContents.begin(); it != fileContents.end(); it++) {
-        //     cout << *it << endl;
-        // }
+
         auto it = fileContents.begin();
         string nonTerm, ruleString;
         vector<string> parsedRule;
@@ -227,15 +208,11 @@ public:
             ruleString = nt_rule_split[1];
             Production production;
             production.nonTerminalString = nonTerm;
-            // cout << "non - " << nonTerm;
-            // cout << " rule - " << ruleString;
-            // cout << endl;
-            // it++;
+
             parsedRule = split(ruleString, " ");
             production.rules.push_back(parsedRule);
             ruleList.push_back(Rule(nonTerm, parsedRule));
             it++;
-            // while (strncmp(it->c_str(), nonTerm.c_str(), nonTerm.length()) == 0) {
             while (it->compare(0, nonTerm.length(), nonTerm) == 0) {
                 nt_rule_split = split(*it, " -> ");
                 ruleString = nt_rule_split[1];
@@ -245,26 +222,16 @@ public:
                 it++;
             }
             productions.push_back(production);
-            // it++;
         }
-        // for (Production p : productions) {
-        //     cout << "nt\n" << p.nonTerminalString << endl;
-        //     for (vector<string> r : p.rules) {
-        //         cout << "\nrule\n";
-        //         for (string x : r) {
-        //             cout << x << "|";
-        //         }
+
+        // int i = 0;
+        // for (Rule r : ruleList) {
+        //     cout << i++<< " " << r.nonTerm << " -> ";
+        //     for (string x : r.parsedRuleRHS) {
+        //         cout << x << " ";
         //     }
         //     cout << endl;
         // }
-        int i = 0;
-        for (Rule r : ruleList) {
-            cout << i++<< " " << r.nonTerm << " -> ";
-            for (string x : r.parsedRuleRHS) {
-                cout << x << " ";
-            }
-            cout << endl;
-        }
     }
 
     Parser(string _input, string filename, string rulesFile)
@@ -276,19 +243,20 @@ public:
         stateStack.push(0);
         int inputPtr = 0;
         int s, a;
+        int itrCounter = 0;
         while (true) {
+            cout << "\nIteration: " << itrCounter++ << endl;
             string currentInput = input.at(inputPtr);
-            cout << currentInput << endl;
             s = stateStack.top();
             a = parseTable.getActionSymbolIndex(currentInput);
             Action action = parseTable.actionTable[s][a];
-            cout << parseTable.actionTable[s][a].shift << "/" << parseTable.actionTable[s][a].reduce << endl;
+
             if (action.shift == 0) {
-                cout << "Parsing completed";
+                cout << "Parsing successful\n";
                 return;
             }
             if (action.shift != -1) {
-                cout << "shift " << action.shift << " " << endl;
+                cout << "Shifting: " << action.shift << " " << endl;
 
                 stateStack.push(action.shift);
                 symbolStack.push(currentInput);
@@ -312,12 +280,27 @@ public:
                     cout << s << " ";
                 }
                 cout << endl;
-                // cout production
             } else {
-                cout << "Oh dear " << s << " " << a << " " << parseTable.actionTable[s][a].shift << "/" << parseTable.actionTable[s][a].reduce  << endl;
+                cout << "Parsing fail @ " << s << " " << a << " " << parseTable.actionTable[s][a].shift << "/" << parseTable.actionTable[s][a].reduce  << endl;
                 return;
             }
+            cout << "Current input symbol: " << currentInput << endl;
+            cout << "State stack: ";
+            printStack(stateStack);
+            cout << "Symbol stack: ";
+            printStack(symbolStack);
         }
+    }
+    
+    template <class T>
+    void printStack(stack<T> _stack)
+    {
+        while(!_stack.empty())
+        {
+            cout << _stack.top() << " ";
+            _stack.pop();
+        }
+        cout << endl;
     }
 
     Parser(string rulesFile)
@@ -329,8 +312,6 @@ public:
 
 int main() 
 {
-    // ParseTable parseTable("tableP");
-    // Parser parser("rules");
-    Parser parser("MAIN { NUM = = NUM ; NUM = = NUM ; }", "tableP", "rules");
+    Parser parser("MAIN { ID = NUM ; NUM = = NUM ; }", "tableP", "rules");
     return 0;
 }
