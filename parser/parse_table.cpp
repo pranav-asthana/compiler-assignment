@@ -295,10 +295,16 @@ public:
     template <class T>
     void printStack(stack<T> _stack)
     {
+        stack<T> invertedStack;
         while(!_stack.empty())
         {
-            cout << _stack.top() << " ";
+            invertedStack.push(_stack.top());
             _stack.pop();
+        }
+        while(!invertedStack.empty())
+        {
+            cout << invertedStack.top() << " ";
+            invertedStack.pop();
         }
         cout << endl;
     }
