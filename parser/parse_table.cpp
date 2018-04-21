@@ -174,6 +174,7 @@ class Parser {
     vector<string> input;
     vector<Production> productions;
     vector<Rule> ruleList;
+    int parseFailItr = 0;
     vector<string> split(const string &text, string sep)
     {
         vector<string> tokens;
@@ -252,7 +253,11 @@ public:
             Action action = parseTable.actionTable[s][a];
 
             if (action.shift == 0) {
-                cout << "Parsing successful\n";
+                if (!parseFailItr) {
+                    cout << "Parsing successful\n";
+                } else {
+                    cout << "Parsed using a best-effort strategy to handle the parse failiure in iteration " << parseFailItr  << endl;
+                }
                 return;
             }
             if (action.shift != -1) {
@@ -282,7 +287,11 @@ public:
                 cout << endl;
             } else {
                 cout << "Parsing fail @ " << s << " " << a << " " << parseTable.actionTable[s][a].shift << "/" << parseTable.actionTable[s][a].reduce  << endl;
-                return;
+                cout << "Trying to recover by popping stack " << endl;
+                symbolStack.pop();
+                stateStack.pop();
+                parseFailItr = itrCounter;
+                // return;
             }
             cout << "Current input symbol: " << currentInput << endl;
             cout << "State stack: ";
@@ -318,6 +327,6 @@ public:
 
 int main() 
 {
-    Parser parser("MAIN { ID = NUM * ID ; }", "t2", "rules");
+    Parser parser("MAIN { NUM = NUM * ID ; }", "t2", "rules");
     return 0;
 }
