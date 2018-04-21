@@ -107,10 +107,10 @@ public:
                             }
                         } else {
                             cout << "Conflict in parsing.\n";
-                            exit(0);
+                            // exit(0);
                             sscanf(splitLine.at(i).c_str(), "s%d / r%d", &state0, &state1);
                             action.shift = state0;
-                            action.reduce = state1;
+                            // action.reduce = state1;
                         }
                     }
                     actionList.push_back(action);
@@ -318,6 +318,6 @@ public:
 
 int main() 
 {
-    Parser parser("MAIN { ID = NUM ; NUM = = NUM ; }", "tableP", "rules");
+    Parser parser("MAIN { ID = NUM ; NUM = = NUM ; }", "t2", "rules");
     return 0;
 }

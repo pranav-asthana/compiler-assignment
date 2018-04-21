@@ -21,6 +21,7 @@ T -> T / F
 T -> F
 F -> ( AE )
 F -> NUM
+F -> ID
 LE -> AE & AE
 LE -> AE | AE
 RE -> AE > AE
