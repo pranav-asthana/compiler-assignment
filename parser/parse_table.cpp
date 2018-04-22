@@ -90,7 +90,7 @@ public:
                 vector<string> splitLine = split(line, "\t");
                 vector<Action> actionList;
                 int i = 1;
-                for (i = 1; i < getActionSymbolCount(); i++) {
+                for (i = 1; i <= getActionSymbolCount(); i++) {
                     Action action;
                     char actionType;
                     int state0;
@@ -202,13 +202,14 @@ public:
         auto it = fileContents.begin();
         string nonTerm, ruleString;
         vector<string> parsedRule;
-        while (it != fileContents.end()) {
+        while (it+1 != fileContents.end()) {
             char _nonTerm[512], _ruleString[512];
             auto nt_rule_split = split(*it, " -> ");
             nonTerm = nt_rule_split[0];
             ruleString = nt_rule_split[1];
             Production production;
             production.nonTerminalString = nonTerm;
+            cout << nonTerm << " " << ruleString << endl;
 
             parsedRule = split(ruleString, " ");
             production.rules.push_back(parsedRule);
@@ -250,9 +251,11 @@ public:
             string currentInput = input.at(inputPtr);
             s = stateStack.top();
             a = parseTable.getActionSymbolIndex(currentInput);
+            cout << s  << " " << a << endl;
             Action action = parseTable.actionTable[s][a];
 
-            if (action.shift == 0) {
+            // if (currentInput == "$") {
+            if (action.shift == -999) {
                 if (!parseFailItr) {
                     cout << "Parsing successful\n";
                 } else {
@@ -279,7 +282,7 @@ public:
                 s = stateStack.top();
                 a = parseTable.getNonTerminalIndex(nt);
                 symbolStack.push(nt);
-                stateStack.push(parseTable.gotoTable[s][a+1]);
+                stateStack.push(parseTable.gotoTable[s][a]);
                 cout << "Reducing: " << ruleList.at(action.reduce).nonTerm << " -> ";
                 for (string s : ruleList.at(action.reduce).parsedRuleRHS) {
                     cout << s << " ";
@@ -288,8 +291,13 @@ public:
             } else {
                 cout << "Parsing fail @ " << s << " " << a << " " << parseTable.actionTable[s][a].shift << "/" << parseTable.actionTable[s][a].reduce  << endl;
                 cout << "Trying to recover by popping stack " << endl;
-                symbolStack.pop();
-                stateStack.pop();
+                if (symbolStack.size() > 0 && stateStack.size() > 0) {
+                    symbolStack.pop();
+                    stateStack.pop();
+                } else {
+                    cout << "Critical parse failure\n";
+                    return;
+                }
                 parseFailItr = itrCounter;
                 // return;
             }
@@ -327,6 +335,12 @@ public:
 
 int main() 
 {
-    Parser parser("MAIN { NUM = NUM * ID ; }", "t2", "rules");
+    Parser parser("TYPE ID ( TYPE ID ) { ID = NUM * ID ; }", "tableP2", "rules");
+    // ParseTable parseTable("tableP2");
+    // cout << parseTable.actionTable[39][24].shift << " " << parseTable.actionTable[39][24].reduce;
+    // cout << parseTable.actionSymbols[24];
+    // for (int i = 0; i < parseTable.getActionSymbolCount(); i++) {
+    //     cout << i << " " << parseTable.actionTable[39][i].shift << " " << parseTable.actionTable[39][i].reduce << endl;
+    // }
     return 0;
 }
