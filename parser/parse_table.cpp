@@ -23,7 +23,6 @@ public:
 
 class ParseTable
 {
-
     int states; 
     vector<string> split(const string &text, string sep)
     {
@@ -137,18 +136,6 @@ public:
     ParseTable(string filename)
     {
         readParseTableFromFile(filename);
-        // for (auto it = gotoTable.begin(); it != gotoTable.end(); it++) {
-        //     for (auto it0 = it->begin(); it0 != it->end(); it0++) {
-        //         cout << *it0 << " ";
-        //     }
-        //     cout << endl;
-        // }
-        // for (auto it = actionTable.begin(); it != actionTable.end(); it++) {
-        //     for (auto it0 = it->begin(); it0 != it->end(); it0++) {
-        //         cout << it0->shift << "/" << it0->reduce << " ";
-        //     }
-        //     cout << endl;
-        // }
     }
 };
 
@@ -225,15 +212,6 @@ public:
             }
             productions.push_back(production);
         }
-
-        // int i = 0;
-        // for (Rule r : ruleList) {
-        //     cout << i++<< " " << r.nonTerm << " -> ";
-        //     for (string x : r.parsedRuleRHS) {
-        //         cout << x << " ";
-        //     }
-        //     cout << endl;
-        // }
     }
 
     Parser(string _input, string filename, string rulesFile)
@@ -254,7 +232,6 @@ public:
             cout << s  << " " << a << endl;
             Action action = parseTable.actionTable[s][a];
 
-            // if (currentInput == "$") {
             if (action.shift == -999) {
                 if (!parseFailItr) {
                     cout << "Parsing successful\n";
