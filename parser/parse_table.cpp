@@ -335,7 +335,7 @@ public:
 
 int main() 
 {
-    Parser parser("TYPE ID ( TYPE ID ) { IF ( ID LTE NUM ) RETURN NUM ; ELSE RETURN ID * ID ( ID - ) ; } TYPE ID ( e ) { TYPE ID ; ID EQ NUM ; WHILE ( ID LTE NUM ) { ID ( ID ) ; ID ( ID ( ID ) ) ; ID ( e ) ; ID EQ ID + NUM ; } }", "tableP2", "rules");
+    Parser parser("TYPE ID ( e ) { ID = NUM ; }", "tableP2", "rules");
     // ParseTable parseTable("tableP2");
     // cout << parseTable.actionTable[39][24].shift << " " << parseTable.actionTable[39][24].reduce;
     // cout << parseTable.actionSymbols[24];
