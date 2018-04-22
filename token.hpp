@@ -19,3 +19,9 @@ public:
         this->tkNum = tkNum;
     }
 };
+
+/*
+FUNCTION: TYPE ID (PARAMS) { STMTS }
+PARAMS: PARAM_LIST | NULL
+PARAM_LIST: TYPE ID | PARAM_LIST, TYPE ID
+*/
