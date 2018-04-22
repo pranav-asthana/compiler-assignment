@@ -335,7 +335,11 @@ public:
 
 int main() 
 {
-    Parser parser("TYPE ID ( e ) { ID EQ NUM ; }", "p3", "rules2");
+    // Parser parser("TYPE ID ( e ) { ID EQ NUM ; }", "p3", "rules2");
+    // Parser parser("TYPE ID ( TYPE ID ) { IF ( ID LTE NUM ) { RETURN NUM ; } ELSE { RETURN ID * ( ID ( ID - NUM ) ) ; } ; }", "p3", "rules2");
+
+    Parser parser("TYPE ID ( TYPE ID ) { IF ( ID LTE NUM ) { RETURN NUM ; } ELSE { RETURN ID * ( ID ( ID - NUM ) ) ; } ; } TYPE ID ( e ) { TYPE ID ; ID EQ NUM ; WHILE ( ID LTE NUM ) { ID ( ID ) ; ID ( ID ( ID ) ) ; ID ( e ) ; ID EQ ID + NUM ; } ; }", "p3", "rules2");
+
     // ParseTable parseTable("tableP2");
     // cout << parseTable.actionTable[39][24].shift << " " << parseTable.actionTable[39][24].reduce;
     // cout << parseTable.actionSymbols[24];
@@ -344,3 +348,4 @@ int main()
     // }
     return 0;
 }
+// TYPE ID ( TYPE ID ) { IF ( ID LTE NUM ) RETURN NUM ; ELSE RETURN ID * ID ( ID - NUM ) ; } TYPE ID ( e ) { TYPE ID ; ID EQ NUM ; WHILE ( ID LTE NUM ) { ID ( ID ) ; ID ( ID ( ID ) ) ; ID ( e ) ; ID EQ ID + NUM ; } } 
