@@ -327,6 +327,6 @@ public:
 
 int main() 
 {
-    Parser parser("MAIN { NUM = NUM * ID ; }", "t2", "rules");
+    Parser parser("MAIN { ID = NUM * ID ; }", "t2", "rules");
     return 0;
 }
