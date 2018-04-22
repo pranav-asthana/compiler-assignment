@@ -251,6 +251,7 @@ public:
             string currentInput = input.at(inputPtr);
             s = stateStack.top();
             a = parseTable.getActionSymbolIndex(currentInput);
+            cout << s  << " " << a << endl;
             Action action = parseTable.actionTable[s][a];
 
             // if (currentInput == "$") {
