@@ -1,16 +1,36 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
+#include <algorithm>
+
 #include <stdio.h>
+
+#include "token.hpp"
 
 using namespace std;
 
 string whitespace = " \n\t";
 string digits = "0123456789";
 string letter_ = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
-string reserved[] = {"", "int", "float", "main", "return", "if", "else", "while"};
+string reserved[] = {"", "main", "return", "if", "else", "while"};
+string types[] = {"", "int", "float"};
 string special[] = {"", ".", ",", "(", ")", "{", "}", "\"", "\'", ";"};
 string operators[] = {"", "+", "-", "*", "/", "%"};
-string rel_ops[] = {"GTE", "GT", "LTE", "LT", "EQEQ", "EQ", "NEQ"};
+string relOps[] = {"GTE", "GT", "LTE", "LT", "EQEQ", "EQ", "NEQ"};
+
+vector<Token> tokens;
+vector<string> lexemes;
+
+void addToken(string tkName, string lexeme) {
+    ptrdiff_t pos = find(lexemes.begin(), lexemes.end(), lexeme) - lexemes.begin();
+    if (pos == lexemes.size()) {
+        tokens.push_back(Token(tkName, lexeme, tokens.size()));
+        lexemes.push_back(lexeme);
+    }
+    else {
+        tokens.push_back(Token(tkName, lexeme, pos));
+    }
+}
 
 int belongs(char a, string str)
 {
@@ -154,6 +174,7 @@ char * FA(char * file_name)
             {
                 yytext[yylen++] = c;
                 printf("Comment %s at line %d\n", yytext, line_number);
+                addToken("COMMENT", yytext);
                 c = file.get();
                 break;
             }
@@ -164,21 +185,32 @@ char * FA(char * file_name)
             {
                 yytext[yylen] = '\0';
                 printf("Operator[%d] %s at line %d\n", tkNum, yytext, line_number);
+                addToken("OPERATOR", yytext);
                 c = file.get();
                 break;
             }
             // Check for special symbols
-            if (tkNum = belongs2(yytext, special) && state == 0)
+            // printf("belongs2(%s, special) = %d\n", yytext, belongs2(yytext, special));
+            if (tkNum = belongs2(yytext, special))// && state == 0)
             {
                 yytext[yylen] = '\0';
                 printf("Symbol[%d] %s at line %d\n", tkNum, yytext, line_number);
+                addToken("SYMBOL", yytext);
                 // c = file.get();
+                break;
+            }
+            // Check for data types
+            if (tkNum = belongs2(yytext, types))
+            {
+                printf("Type[%d] %s at line %d\n", tkNum, yytext, line_number);
+                addToken("TYPE", yytext);
                 break;
             }
             // Check for reserved words
             if (tkNum = belongs2(yytext, reserved))
             {
                 printf("Reseved word[%d] %s at line %d\n", tkNum, yytext, line_number);
+                addToken("KEYWORD", yytext);
                 break;
             }
 
@@ -186,7 +218,9 @@ char * FA(char * file_name)
             int op_id;
             if (op_id = isState(state, rel_op_states, 7))
             {
-                string op = rel_ops[op_id-1];
+                string op = relOps[op_id-1];
+                // addToken("RELOP", yytext); // Will be like "<="
+                addToken("RELOP", op); // Will be like "LTE"
                 cout << "Relational operator[] " << op <<" at line "<< line_number << endl;
                 if (op.length() > 2)
                     c = file.get();
@@ -195,16 +229,21 @@ char * FA(char * file_name)
             if (isState(state, int_states, 1))
             {
                 printf("Int %s at line %d\n", yytext, line_number);
+                // addToken("INT", yytext);
+                addToken("NUM", yytext);
                 break;
             }
             else if (isState(state, float_states, 1))
             {
                 printf("Float %s at line %d\n", yytext, line_number);
+                // addToken("FLOAT", yytext);
+                addToken("NUM", yytext);
                 break;
             }
             else if(isState(state, id_states, 1))
             {
                 printf("ID %s at line %d\n", yytext, line_number);
+                addToken("ID", yytext);
                 break;
             }
             else if (state == -1 && yylen > 0) // invalid
@@ -232,6 +271,13 @@ char * FA(char * file_name)
         }
     }
     file.close();
+
+    cout << "Num of tokens = " << tokens.size() << endl;
+    for (int i = 0; i < tokens.size(); i++) {
+        cout << tokens.at(i).tkName << " ";
+        cout << tokens.at(i).lexeme << " ";
+        cout << tokens.at(i).tkNum << endl;
+    }
 }
 
 int main()
