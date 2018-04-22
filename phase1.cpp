@@ -301,6 +301,11 @@ int main()
     // special = . // Anything else
 
     string result = FA("input.c");
+    size_t start = result.find("( )");
+    while ((int)start >= 0) {
+        result.replace(start, 3, "( e )");
+        start = result.find("( )");
+    }
     cout << "\n\nRESULT:\n\n" << result << endl;
 
     return 0;
