@@ -335,7 +335,7 @@ public:
 
 int main() 
 {
-    Parser parser("TYPE ID ( e ) { ID = NUM ; }", "tableP2", "rules");
+    Parser parser("TYPE ID ( e ) { ID EQ NUM ; }", "p3", "rules2");
     // ParseTable parseTable("tableP2");
     // cout << parseTable.actionTable[39][24].shift << " " << parseTable.actionTable[39][24].reduce;
     // cout << parseTable.actionSymbols[24];

@@ -21,6 +21,7 @@ ASSIGN -> ID EQ EXP
 ASSIGN -> TYPE ID EQ EXP
 EXP -> AE
 EXP -> BOOL_E
+EXP -> e
 BOOL_E -> LE
 BOOL_E -> RE
 AE -> AE + T
