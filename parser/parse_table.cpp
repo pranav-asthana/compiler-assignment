@@ -202,13 +202,14 @@ public:
         auto it = fileContents.begin();
         string nonTerm, ruleString;
         vector<string> parsedRule;
-        while (it != fileContents.end()) {
+        while (it+1 != fileContents.end()) {
             char _nonTerm[512], _ruleString[512];
             auto nt_rule_split = split(*it, " -> ");
             nonTerm = nt_rule_split[0];
             ruleString = nt_rule_split[1];
             Production production;
             production.nonTerminalString = nonTerm;
+            cout << nonTerm << " " << ruleString << endl;
 
             parsedRule = split(ruleString, " ");
             production.rules.push_back(parsedRule);
@@ -252,7 +253,8 @@ public:
             a = parseTable.getActionSymbolIndex(currentInput);
             Action action = parseTable.actionTable[s][a];
 
-            if (action.shift == 0) {
+            // if (currentInput == "$") {
+            if (action.shift == -999) {
                 if (!parseFailItr) {
                     cout << "Parsing successful\n";
                 } else {
@@ -288,8 +290,13 @@ public:
             } else {
                 cout << "Parsing fail @ " << s << " " << a << " " << parseTable.actionTable[s][a].shift << "/" << parseTable.actionTable[s][a].reduce  << endl;
                 cout << "Trying to recover by popping stack " << endl;
-                symbolStack.pop();
-                stateStack.pop();
+                if (symbolStack.size() > 0 && stateStack.size() > 0) {
+                    symbolStack.pop();
+                    stateStack.pop();
+                } else {
+                    cout << "Critical parse failure\n";
+                    return;
+                }
                 parseFailItr = itrCounter;
                 // return;
             }
@@ -327,6 +334,6 @@ public:
 
 int main() 
 {
-    Parser parser("MAIN { ID = NUM * ID ; }", "t2", "rules");
+    Parser parser("TYPE ID ( TYPE ID ) { ID = NUM * ID ; }", "tableP2", "rules");
     return 0;
 }
