@@ -67,7 +67,7 @@ char * newLabel(){
 }
 %token <ival> DIGIT
 %token <fval> FLOAT
-%token <sval> ID IF ELSE WHILE TYPES REL_OPT OR AND NOT TRUE FALSE
+%token <sval> ID IF ELSE WHILE TYPE REL_OPT OR AND NOT TRUE FALSE
 %token <sval> '+' '-' '*' '/' '^' '%' '\n' '=' ';'
 %type <sval> stmts text number construct block dec bool program startSym funcs func func_call call_list
 %type <EXPRTYPE> expr stmt
@@ -102,7 +102,7 @@ startSym : funcs
 			strcat(ret,s1);
 			strcat(ret,"\n");
 			strcat(ret,label);
-			strcat(ret," : END OF THREE ADDRESS CODE !!!!!\n");
+			strcat(ret," : END OF THREE ADDRESS CODE\n");
 
 			printf("\n----------  FINAL THREE ADDRESS CODE ----------\n");
 			puts(ret);
@@ -128,7 +128,7 @@ startSym : funcs
 					strcat(ret,s1);
 					strcat(ret,"\n");
 					strcat(ret,label);
-					strcat(ret," : END OF THREE ADDRESS CODE !!!!!\n");
+					strcat(ret," : END OF THREE ADDRESS CODE\n");
 
 					printf("\n----------  FINAL THREE ADDRESS CODE ----------\n");
 					puts(ret);
@@ -172,7 +172,7 @@ funcs : funcs func
 			puts($1);
 			$$ = $1;
 		}
-func : TYPES text '(' ')' '{' program '}'
+func : TYPE text '(' ')' '{' program '}'
 		{
 			ret = (char *)malloc(strlen($2)+strlen($6)+40);
 			ret[0] = 0;
@@ -528,7 +528,7 @@ stmt:    ';'
 
          ;
 
-dec : 		TYPES text
+dec : 		TYPE text
 		{
 			$$ = $2;
 		}

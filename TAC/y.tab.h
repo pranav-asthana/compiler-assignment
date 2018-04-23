@@ -51,7 +51,7 @@ extern int yydebug;
     IF = 261,
     ELSE = 262,
     WHILE = 263,
-    TYPES = 264,
+    TYPE = 264,
     REL_OPT = 265,
     OR = 266,
     AND = 267,
@@ -67,7 +67,7 @@ extern int yydebug;
 #define IF 261
 #define ELSE 262
 #define WHILE 263
-#define TYPES 264
+#define TYPE 264
 #define REL_OPT 265
 #define OR 266
 #define AND 267

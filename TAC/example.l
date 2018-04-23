@@ -13,7 +13,7 @@ FLOAT [0-9]+[.][0-9]*
 
 ARITHMETIC_OPERATORS ['+' '\-' '*' '/' '^' '%']
 OTHER_CHARACTERS ['=' ';' '(' ')' '{' '}']
-TYPES ["int" "float" "long" "char" "double"]
+TYPE ["int" "float" "long" "char" "double"]
 
 %%
 [ \t] ;
@@ -24,11 +24,11 @@ TYPES ["int" "float" "long" "char" "double"]
 "else" 	{ return (ELSE); }
 "while"	{ return (WHILE); }
 
-"int"	{ return (TYPES); }
-"float"	{ return (TYPES); }
-"long"	{ return (TYPES); }
-"char"	{ return (TYPES); }
-"double"	{ return (TYPES); }
+"int"	{ return (TYPE); }
+"float"	{ return (TYPE); }
+"long"	{ return (TYPE); }
+"char"	{ return (TYPE); }
+"double"	{ return (TYPE); }
 
 ">"	{yylval.sval = strdup(yytext);
 		return (REL_OPT);}

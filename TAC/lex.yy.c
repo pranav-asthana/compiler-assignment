@@ -819,27 +819,27 @@ YY_RULE_SETUP
 case 6:
 YY_RULE_SETUP
 #line 27 "example.l"
-{ return (TYPES); }
+{ return (TYPE); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 28 "example.l"
-{ return (TYPES); }
+{ return (TYPE); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 29 "example.l"
-{ return (TYPES); }
+{ return (TYPE); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 30 "example.l"
-{ return (TYPES); }
+{ return (TYPE); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 31 "example.l"
-{ return (TYPES); }
+{ return (TYPE); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
