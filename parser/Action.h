@@ -1,3 +1,6 @@
+#ifndef ACTION_H
+#define ACTION_H
+
 class Action {
 public:
     int shift;
@@ -10,3 +13,5 @@ public:
         reduce2 = -1;
     }
 }; 
+
+#endif
