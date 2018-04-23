@@ -1,3 +1,6 @@
+#ifndef PARSER_H
+#define PARSER_H
+
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -25,6 +28,8 @@ class Parser {
     vector<Rule> ruleList;
     int parseFailItr = 0;
     vector<string> split(const string &text, string sep);
+    template <class T>
+    void printStack(stack<T> _stack);
 
 public:
     void readRules(string rulesFile);
@@ -32,3 +37,4 @@ public:
     Parser(string rulesFile);
 };
  
+#endif

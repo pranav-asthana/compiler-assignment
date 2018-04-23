@@ -1,3 +1,6 @@
+#ifndef RULE_H
+#define RULE_H
+
 #include <string>
 #include <vector>
 
@@ -13,3 +16,5 @@ public:
         parsedRuleRHS = _rhs;
     }
 };
+
+#endif
