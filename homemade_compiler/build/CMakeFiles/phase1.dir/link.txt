@@ -1,1 +1,0 @@
-/usr/bin/c++   -O2 -Wall -Wextra   CMakeFiles/phase1.dir/phase1.cpp.o CMakeFiles/phase1.dir/ParseTable.cpp.o CMakeFiles/phase1.dir/Parser.cpp.o  -o phase1 -rdynamic 

@@ -168,9 +168,9 @@ string FA(char * file_name)
             yytext[yylen] = '\0';
             yytext[yylen+1] = '\0';
 
-            // printf("State:%d c='%c' yytext(%d)=%s\n", state, c, yylen, yytext);
+            printf("State:%d c='%c' yytext(%d)=%s\n", state, c, yylen, yytext);
             state = move(state, c);
-            // printf("State:%d c='%c' yytext(%d)=%s\n----\n", state, c, yylen, yytext);
+            printf("State:%d c='%c' yytext(%d)=%s\n----\n", state, c, yylen, yytext);
 
             if (isState(state, comment_states, 1))
             {
@@ -301,7 +301,7 @@ int main()
     // whitespace = [ \n\t]
     // special = . // Anything else
 
-    string result = FA("input.c");
+    string result = FA("input2.c");
     size_t start = result.find("( )");
     while ((int)start >= 0) {
         result.replace(start, 3, "( e )");
@@ -309,7 +309,7 @@ int main()
     }
     cout << "\n\nRESULT:\n\n" << result << endl;
     result.pop_back();
-    Parser parser(result, "p3", "rules2");
+    Parser parser(result, "lalr_table", "grammar");
 
     return 0;
 }
