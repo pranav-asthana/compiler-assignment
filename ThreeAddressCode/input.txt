@@ -1,0 +1,17 @@
+int main ( ) {
+	while(2>4) {
+		3+4;
+	}
+
+	while(a>b){
+		if(c>d)
+			{x=x+1;}
+		else{ y=y+1;
+		j = j+1;
+		haha(iden);
+			}
+	}
+}
+int haha() {
+	j=k+1;
+}
