@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named parsetable
+# Target rules for targets named phase1
 
 # Build rule for target.
-parsetable: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 parsetable
-.PHONY : parsetable
+phase1: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 phase1
+.PHONY : phase1
 
 # fast build rule for target.
-parsetable/fast:
-	$(MAKE) -f CMakeFiles/parsetable.dir/build.make CMakeFiles/parsetable.dir/build
-.PHONY : parsetable/fast
+phase1/fast:
+	$(MAKE) -f CMakeFiles/phase1.dir/build.make CMakeFiles/phase1.dir/build
+.PHONY : phase1/fast
 
 ParseTable.o: ParseTable.cpp.o
 
@@ -129,7 +129,7 @@ ParseTable.o: ParseTable.cpp.o
 
 # target to build an object file
 ParseTable.cpp.o:
-	$(MAKE) -f CMakeFiles/parsetable.dir/build.make CMakeFiles/parsetable.dir/ParseTable.cpp.o
+	$(MAKE) -f CMakeFiles/phase1.dir/build.make CMakeFiles/phase1.dir/ParseTable.cpp.o
 .PHONY : ParseTable.cpp.o
 
 ParseTable.i: ParseTable.cpp.i
@@ -138,7 +138,7 @@ ParseTable.i: ParseTable.cpp.i
 
 # target to preprocess a source file
 ParseTable.cpp.i:
-	$(MAKE) -f CMakeFiles/parsetable.dir/build.make CMakeFiles/parsetable.dir/ParseTable.cpp.i
+	$(MAKE) -f CMakeFiles/phase1.dir/build.make CMakeFiles/phase1.dir/ParseTable.cpp.i
 .PHONY : ParseTable.cpp.i
 
 ParseTable.s: ParseTable.cpp.s
@@ -147,7 +147,7 @@ ParseTable.s: ParseTable.cpp.s
 
 # target to generate assembly for a file
 ParseTable.cpp.s:
-	$(MAKE) -f CMakeFiles/parsetable.dir/build.make CMakeFiles/parsetable.dir/ParseTable.cpp.s
+	$(MAKE) -f CMakeFiles/phase1.dir/build.make CMakeFiles/phase1.dir/ParseTable.cpp.s
 .PHONY : ParseTable.cpp.s
 
 Parser.o: Parser.cpp.o
@@ -156,7 +156,7 @@ Parser.o: Parser.cpp.o
 
 # target to build an object file
 Parser.cpp.o:
-	$(MAKE) -f CMakeFiles/parsetable.dir/build.make CMakeFiles/parsetable.dir/Parser.cpp.o
+	$(MAKE) -f CMakeFiles/phase1.dir/build.make CMakeFiles/phase1.dir/Parser.cpp.o
 .PHONY : Parser.cpp.o
 
 Parser.i: Parser.cpp.i
@@ -165,7 +165,7 @@ Parser.i: Parser.cpp.i
 
 # target to preprocess a source file
 Parser.cpp.i:
-	$(MAKE) -f CMakeFiles/parsetable.dir/build.make CMakeFiles/parsetable.dir/Parser.cpp.i
+	$(MAKE) -f CMakeFiles/phase1.dir/build.make CMakeFiles/phase1.dir/Parser.cpp.i
 .PHONY : Parser.cpp.i
 
 Parser.s: Parser.cpp.s
@@ -174,35 +174,35 @@ Parser.s: Parser.cpp.s
 
 # target to generate assembly for a file
 Parser.cpp.s:
-	$(MAKE) -f CMakeFiles/parsetable.dir/build.make CMakeFiles/parsetable.dir/Parser.cpp.s
+	$(MAKE) -f CMakeFiles/phase1.dir/build.make CMakeFiles/phase1.dir/Parser.cpp.s
 .PHONY : Parser.cpp.s
 
-parse_table.o: parse_table.cpp.o
+phase1.o: phase1.cpp.o
 
-.PHONY : parse_table.o
+.PHONY : phase1.o
 
 # target to build an object file
-parse_table.cpp.o:
-	$(MAKE) -f CMakeFiles/parsetable.dir/build.make CMakeFiles/parsetable.dir/parse_table.cpp.o
-.PHONY : parse_table.cpp.o
+phase1.cpp.o:
+	$(MAKE) -f CMakeFiles/phase1.dir/build.make CMakeFiles/phase1.dir/phase1.cpp.o
+.PHONY : phase1.cpp.o
 
-parse_table.i: parse_table.cpp.i
+phase1.i: phase1.cpp.i
 
-.PHONY : parse_table.i
+.PHONY : phase1.i
 
 # target to preprocess a source file
-parse_table.cpp.i:
-	$(MAKE) -f CMakeFiles/parsetable.dir/build.make CMakeFiles/parsetable.dir/parse_table.cpp.i
-.PHONY : parse_table.cpp.i
+phase1.cpp.i:
+	$(MAKE) -f CMakeFiles/phase1.dir/build.make CMakeFiles/phase1.dir/phase1.cpp.i
+.PHONY : phase1.cpp.i
 
-parse_table.s: parse_table.cpp.s
+phase1.s: phase1.cpp.s
 
-.PHONY : parse_table.s
+.PHONY : phase1.s
 
 # target to generate assembly for a file
-parse_table.cpp.s:
-	$(MAKE) -f CMakeFiles/parsetable.dir/build.make CMakeFiles/parsetable.dir/parse_table.cpp.s
-.PHONY : parse_table.cpp.s
+phase1.cpp.s:
+	$(MAKE) -f CMakeFiles/phase1.dir/build.make CMakeFiles/phase1.dir/phase1.cpp.s
+.PHONY : phase1.cpp.s
 
 # Help Target
 help:
@@ -212,16 +212,16 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... parsetable"
+	@echo "... phase1"
 	@echo "... ParseTable.o"
 	@echo "... ParseTable.i"
 	@echo "... ParseTable.s"
 	@echo "... Parser.o"
 	@echo "... Parser.i"
 	@echo "... Parser.s"
-	@echo "... parse_table.o"
-	@echo "... parse_table.i"
-	@echo "... parse_table.s"
+	@echo "... phase1.o"
+	@echo "... phase1.i"
+	@echo "... phase1.s"
 .PHONY : help
 
 

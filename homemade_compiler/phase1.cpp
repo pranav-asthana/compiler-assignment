@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 #include "token.hpp"
+#include "Parser.h"
 
 using namespace std;
 
@@ -307,6 +308,8 @@ int main()
         start = result.find("( )");
     }
     cout << "\n\nRESULT:\n\n" << result << endl;
+    result.pop_back();
+    Parser parser(result, "p3", "rules2");
 
     return 0;
 }

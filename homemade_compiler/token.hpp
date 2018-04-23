@@ -1,6 +1,5 @@
-// #include <iostream>
-// #include <fstream>
-// #include <stdio.h>
+#ifndef TOKEN_H
+#define TOKEN_H
 
 using namespace std;
 
@@ -20,8 +19,4 @@ public:
     }
 };
 
-/*
-FUNCTION: TYPE ID (PARAMS) { STMTS }
-PARAMS: PARAM_LIST | NULL
-PARAM_LIST: TYPE ID | PARAM_LIST, TYPE ID
-*/
+#endif

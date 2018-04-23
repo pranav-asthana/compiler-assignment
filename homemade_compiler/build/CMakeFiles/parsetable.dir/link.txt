@@ -1,0 +1,1 @@
+/usr/bin/c++   -O2 -Wall -Wextra   CMakeFiles/parsetable.dir/parse_table.cpp.o CMakeFiles/parsetable.dir/ParseTable.cpp.o CMakeFiles/parsetable.dir/Parser.cpp.o  -o parsetable -rdynamic 
